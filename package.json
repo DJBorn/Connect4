@@ -1,0 +1,25 @@
+{
+  "name": "Connect4",
+  "version": "1.0.0",
+  "description": "Connect 4 web app using Node.js, Express, and Socket.io.",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.15.4",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DJBorn/Connect4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DJBorn/Connect4/issues"
+  },
+  "homepage": "https://github.com/DJBorn/Connect4#readme"
+}
