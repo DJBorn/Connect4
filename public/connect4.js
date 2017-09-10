@@ -8,11 +8,11 @@
     function resizeCanvas() {
         //canvas.style.width='100%';
         //canvas.style.height='100%';
-        //canvas.width  = canvas.offsetWidth;
-        //canvas.height = canvas.offsetHeight;
-        //canvas.width = document.getElementById('canvas-container').offsetWidth;
-        //canvas.height = document.getElementById('canvas-container').offsetHeight;
-
+        canvas.width  = canvas.innerWidth;
+        canvas.height = canvas.innerHeight;
+        canvas.width = document.getElementById('canvas').offsetWidth;
+        canvas.height = document.getElementById('canvas').offsetHeight;
+        
         drawStuff(); 
     }
     resizeCanvas();
