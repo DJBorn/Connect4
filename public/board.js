@@ -1,8 +1,9 @@
 var Board = function(new_canvas) {
     var canvas = new_canvas;
     var ctx = canvas.getContext('2d');
-    var cellWidth;
-    var cellHeight;
+    var cellLength;
+    var boardWidth;
+    var boardHeight;
     var backgroundColor = "rgb(50, 120, 225)"; //board color
     var backgroundShade = "rgb(25, 60, 145)"; //hole color
     
@@ -12,17 +13,16 @@ var Board = function(new_canvas) {
     window.addEventListener('resize', resizeCanvas, false);
 
     function resizeCanvas() {
-        canvas.width  = canvas.innerWidth;
-        canvas.height = canvas.innerHeight;
-        canvas.width = document.getElementById('canvas').offsetWidth;
-        canvas.height = document.getElementById('canvas').offsetHeight;
-        cellWidth = this.canvas.width/7;
-        cellHeight = this.canvas.height/6;
+        canvas.width = window.innerWidth;
+        canvas.height  = window.innerHeight;
+        cellLength = Math.min(canvas.width/7, canvas.height/6*.9);
+        boardWidth = cellLength*7;
+        boardHeight = cellLength*6
     }
 
     this.drawBoard = function() {
         // Draw background
-        ctx.rect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+        ctx.rect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = backgroundColor;
         ctx.fill();
 
@@ -38,9 +38,9 @@ var Board = function(new_canvas) {
     function drawHoles(x, y){
         // Draw a hole at x and y, with the radius of the hole scale between 0-1 where 1 is the size of the cell
         function drawHole(x, y, radiusScale) {
-            var radius = Math.min(cellWidth/2,cellHeight/2) * radiusScale;
-            x = x + cellWidth/2;
-            y = y + cellHeight/2;
+            var radius = cellLength/2 * radiusScale;
+            x = x + cellLength/2;
+            y = y + cellLength/2;
 
             ctx.beginPath();
             ctx.shadowBlur=5;
@@ -52,7 +52,7 @@ var Board = function(new_canvas) {
 
         for(var i = 0; i < 7; i++) {
             for(var j = 0; j < 6; j++) {
-                drawHole(i*cellWidth, j*cellHeight, 0.85);
+                drawHole(i*cellLength + canvas.width/2 - boardWidth/2, j*cellLength + canvas.height - boardHeight, .1);
             }
         }
     }

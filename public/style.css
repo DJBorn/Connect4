@@ -1,103 +1,11 @@
 html, body { 
-    margin:0px; 
+    margin:0; 
     padding:0;
     width:100%;
     height:100%;
     background-color: rgb(255, 150, 200);/* True value: 50, 120, 225 */
 }
 
-#container {
-    /* Flex container */
-    display:-webkit-flex;
-    display:-webkit-box;
-    display:-moz-flex;
-    display:-moz-box;
-    display:-ms-flexbox;
-    display:flex;
-
-    width: 100%;
-    height: 100%;
-    background-color: rgb(200, 150, 200);/* True value: 50, 120, 225 */
-}
-
-#content {
-    /* Flex space allocation */
-    -webkit-flex:4;
-    -webkit-box-flex:4;
-    -moz-flex:4;
-    -moz-box-flex:4;
-    -ms-flex:4;
-    flex:4;
-
-    /* Flex container */
-    display:-webkit-flex;
-    display:-webkit-box;
-    display:-moz-flex;
-    display:-moz-box;
-    display:-ms-flexbox;
-    display:flex;
-
-    /* Flex direction */
-    flex-direction: column;
-    -webkit-box-orient: vertical;
-}
-
-#header {
-    /* Flex space allocation */
-    -webkit-flex:1;
-    -webkit-box-flex:1;
-    -moz-flex:1;
-    -moz-box-flex:1;
-    -ms-flex:1;
-    flex:1;
-    background-color: rgb(0, 0, 100);/* True value: 50, 120, 225 */
-}
-
-#canvas {
-    /* Flex space allocation */
-    -webkit-flex:4;
-    -webkit-box-flex:4;
-    -moz-flex:4;
-    -moz-box-flex:4;
-    -ms-flex:4;
-    flex:4;
-
-    margin: 0;
-    padding: 0;
-}
-
-#footer {
-    /* Flex space allocation */
-    -webkit-flex:1;
-    -webkit-box-flex:1;
-    -moz-flex:1;
-    -moz-box-flex:1;
-    -ms-flex:1;
-    flex:1;
-
-    background-color: rgb(0, 100, 0);/* True value: 50, 120, 225 */
-}
-
-#left-border {
-    /* Flex space allocation */
-    -webkit-flex:1;
-    -webkit-box-flex:1;
-    -moz-flex:1;
-    -moz-box-flex:1;
-    -ms-flex:1;
-    flex:1;
-
-    background-color: rgb(0, 150, 200);/* True value: 50, 120, 225 */
-}
-
-#right-border {
-    /* Flex space allocation */
-    -webkit-flex:1;
-    -webkit-box-flex:1;
-    -moz-flex:1;
-    -moz-box-flex:1;
-    -ms-flex:1;
-    flex:1;
-    
-    background-color: rgb(200, 150, 0);/* True value: 50, 120, 225 */
+canvas {
+    position:absolute;
 }
