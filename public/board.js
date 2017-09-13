@@ -8,6 +8,17 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var boardHeight;
     var backgroundColor = "rgb(50, 120, 225)"; //board color
     var backgroundShade = "rgb(25, 60, 145)"; //hole color
+    var piece1Color = "rgb(245, 328, 158)"; 
+    var piece2Color = "rgb(240, 101, 67)";
+    var player1 = 1;
+    var player2 = 2;
+    var board = [];
+
+    // Initialize empty board
+    for(var i = 0; i < rows; i++) {
+        for(var j = 0; j < columns; j++)
+            board[i][j] = 0;
+    }
     
 
     resizeCanvas();
