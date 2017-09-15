@@ -19,6 +19,10 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
             board[i][j] = 0;
     }
 
+    setInterval(function() {
+        board[Math.floor(Math.random()*rows)][Math.floor(Math.random()*columns)] = Math.floor(Math.random()*2)+1;
+    }, 200)
+
     resizeCanvas();
 
     // Resize the canvas whenever the window size changes
@@ -66,10 +70,10 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
         for(var i = 0; i < rows; i++) {
             for(var j = 0; j < columns; j++) {
                 if (board[i][j] === 1) {
-                    drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .1, piece1Color);
+                    drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .8, piece1Color);
                 }
                 else if (board[i][j] === 2) {
-                    drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .1, piece2Color);
+                    drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .8, piece2Color);
                 }
                 else {
                     drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .1, backgroundShade);
