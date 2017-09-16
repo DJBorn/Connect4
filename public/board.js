@@ -11,6 +11,9 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var player1 = 1;
     var player2 = 2;
     var board = [[]];
+    var horizontalOffset;
+    var verticalOffset;
+    
 
     // Initialize empty board
     for(var i = 0; i < rows; i++) {
@@ -28,12 +31,66 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     // Resize the canvas whenever the window size changes
     window.addEventListener('resize', resizeCanvas, false);
 
+    // Gets the current cursor coodinates 
+    function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+    }
+
+    // Listens for a click. Returns the region clicked to the console.
+    window.addEventListener('mousemove', function(evt) {
+
+        // gets the cursor postion
+        var mousePos = getMousePos(canvas, evt);
+
+        /* debugging
+        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+        console.log(message);
+        */
+
+        var j = columns;
+        var horoRegionTotal = j*cellLength + horizontalOffset;  // The horozontal length of the ENTIRE canvas region
+        var horoRegionLength = (horoRegionTotal - (canvas.width - horoRegionTotal)) / j; // A region is the horozontal length of 1 column
+
+        /* debugging 
+        console.log("Total vertical region: " + vertRegion);
+        console.log("Total horozontal region: " + horoRegion);
+        console.log();
+        console.log("Vertical length per region: " + vertRegionLength);
+        console.log("Horozontal length per region: " + horoRegionLength);
+        */
+
+        // An array that is filled with the max values of each region
+        var regions = [];
+        for (var i = 1; i < j + 1; i++) {
+            regions[i] = (horoRegionLength * i) + (canvas.width - horoRegionTotal); 
+        }
+        // debugging
+        //console.log(regions);
+
+        // Determines which region to return based on the cursor coordinates
+        for (var i = 1; i < j + 1; i++) {
+            if (mousePos.x <= regions[i] && mousePos.x > regions[i - 1]) // if x <= the max value of a region and greater than the previous region, it must be inside region[i]
+                console.log("clicked in region: " + i);
+            else if (i === 1 && mousePos.x <= regions[i]) // space clicked to the left of the first region will count as the first region
+                console.log("clicked in region: " + i);
+            else if (i === j && mousePos.x >= regions[i]) // space clicked to the right of the last region will count as the last region
+                console.log("clicked in region: " + i);
+        }
+    }, false);
+
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height  = window.innerHeight;
         cellLength = Math.min(canvas.height/rows, canvas.width/columns);
         boardHeight = cellLength*rows;
         boardWidth = cellLength*columns;
+
+        horizontalOffset = (canvas.width - boardWidth)/2;
+        verticalOffset = canvas.height - boardHeight;
     }
 
     this.drawBoard = function() {
@@ -63,9 +120,6 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
             ctx.fillStyle = color;
             ctx.fill();
         }
-
-        var horizontalOffset = (canvas.width - boardWidth)/2;
-        var verticalOffset = canvas.height - boardHeight;
 
         for(var i = 0; i < rows; i++) {
             for(var j = 0; j < columns; j++) {
