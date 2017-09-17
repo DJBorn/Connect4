@@ -1,3 +1,8 @@
+/*
+* @todo
+* make the socket emit the correct column to the server.
+*/
+
 var Board = function(new_canvas, rows = 6, columns = 7) {
     var canvas = new_canvas;
     var ctx = canvas.getContext('2d');
@@ -15,7 +20,7 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var horizontalOffset;
     var verticalOffset;
 
-    setInterval(function() {socket.emit('putPiece', 3);}, 5000);
+    //setInterval(function() {socket.emit('putPiece', 3);}, 5000);
 
     // Initialize empty board
     for(var i = 0; i < rows; i++) {
@@ -24,9 +29,9 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
             board[i][j] = 0;
     }
 
-    setInterval(function() {
-        board[Math.floor(Math.random()*rows)][Math.floor(Math.random()*columns)] = Math.floor(Math.random()*2)+1;
-    }, 200)
+    // setInterval(function() {
+    //     board[Math.floor(Math.random()*rows)][Math.floor(Math.random()*columns)] = Math.floor(Math.random()*2)+1;
+    // }, 200)
 
     resizeCanvas();
 
@@ -43,7 +48,7 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     }
 
     // Listens for a click. Returns the region clicked to the console.
-    window.addEventListener('mousemove', function(evt) {
+    window.addEventListener('click', function(evt) {
 
         // gets the cursor postion
         var mousePos = getMousePos(canvas, evt);
@@ -52,35 +57,28 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
         console.log(message);
         */
-
-        var j = columns;
-        var horoRegionTotal = j*cellLength + horizontalOffset;  // The horozontal length of the ENTIRE canvas region
-        var horoRegionLength = (horoRegionTotal - (canvas.width - horoRegionTotal)) / j; // A region is the horozontal length of 1 column
-
-        /* debugging 
-        console.log("Total vertical region: " + vertRegion);
-        console.log("Total horozontal region: " + horoRegion);
-        console.log();
-        console.log("Vertical length per region: " + vertRegionLength);
-        console.log("Horozontal length per region: " + horoRegionLength);
-        */
+        
+        var columnLength = boardWidth / (cellLength*columns);
 
         // An array that is filled with the max values of each region
         var regions = [];
-        for (var i = 1; i < j + 1; i++) {
-            regions[i] = (horoRegionLength * i) + (canvas.width - horoRegionTotal); 
+        for (var i = 0; i < columns; i++) {
+            regions[i] = (columnLength * i) * cellLength + horizontalOffset;
+            //console.log(regions[i]);
         }
         // debugging
         //console.log(regions);
 
         // Determines which region to return based on the cursor coordinates
-        for (var i = 1; i < j + 1; i++) {
-            if (mousePos.x <= regions[i] && mousePos.x > regions[i - 1]) // if x <= the max value of a region and greater than the previous region, it must be inside region[i]
+        for (var i = 0; i < columns; i++) {
+            if (mousePos.x < regions[i + 1] && mousePos.x > regions[i]) {
+                console.log("clicked in region: " + i); 
+                socket.emit('putPiece', i);
+            }
+            else if (i === columns-1 && mousePos.x >= regions[i] && mousePos.x <= regions[i] + cellLength) { 
                 console.log("clicked in region: " + i);
-            else if (i === 1 && mousePos.x <= regions[i]) // space clicked to the left of the first region will count as the first region
-                console.log("clicked in region: " + i);
-            else if (i === j && mousePos.x >= regions[i]) // space clicked to the right of the last region will count as the last region
-                console.log("clicked in region: " + i);
+                socket.emit('putPiece', i);
+            }
         }
     }, false);
 

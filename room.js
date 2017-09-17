@@ -4,7 +4,7 @@ var Room = function (room_id){
     this.room_id = room_id;
     this.host = null;
     this.guest = null;
-    this.board = new Board(7, 6);
+    this.board = new Board(6, 7);
 }
 
 Room.prototype.isFull = function () {

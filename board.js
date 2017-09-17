@@ -1,3 +1,9 @@
+/*
+* @todo
+* accurately place pieces in the board
+* 
+*/
+
 var Board = function (rows, columns){
     this.board = [];
     this.rows = rows;
@@ -12,9 +18,30 @@ var Board = function (rows, columns){
 
 Board.prototype.putPiece = function (piece, column) {
     console.log("Player " + piece + " wanted to put a piece at " + column);
-
-    
-    console.log("Board now looks like:");
-    console.log(this.board);
+    for (var i = 0; i < this.rows; i++) {
+        //console.log("");
+        for (var j = column; j <= column; j++) {
+            if (this.board[0][j] === 1) {
+                console.log("Column is full");
+                return;
+            }
+            else if (this.board[0][j] === 2) {
+                console.log("Column is full");
+                return;
+            }
+            else if (this.board[i][j] === 1) {
+                //idon'tknowhatshappeninganymore
+                console.log("Board now looks like:");
+                console.log(this.board);
+            }
+            else {
+                this.board[i][j] = piece;
+                console.log("Board now looks like:");
+                console.log(this.board);
+                return;
+                //console.log("");
+            }
+        }
+    }
 }
 exports.Board = Board;
