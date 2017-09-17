@@ -10,10 +10,12 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var piece2Color = "rgb(240, 101, 67)";
     var player1 = 1;
     var player2 = 2;
+    var you;
     var board = [[]];
     var horizontalOffset;
     var verticalOffset;
-    
+
+    setInterval(function() {socket.emit('putPiece', 3);}, 5000);
 
     // Initialize empty board
     for(var i = 0; i < rows; i++) {
@@ -123,10 +125,10 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
 
         for(var i = 0; i < rows; i++) {
             for(var j = 0; j < columns; j++) {
-                if (board[i][j] === 1) {
+                if (board[i][j] === player1) {
                     drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .8, piece1Color);
                 }
-                else if (board[i][j] === 2) {
+                else if (board[i][j] === player2) {
                     drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .8, piece2Color);
                 }
                 else {

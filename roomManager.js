@@ -29,7 +29,7 @@ var RoomManager = function () {
             if(rooms[room].host && rooms[room].host.id == client_id)
                 rooms[room].host = null;
             else if(rooms[room].guest && rooms[room].guest.id == client_id)
-                rooms[room].host = null;
+                rooms[room].guest = null;
         }
         console.log(client_id + " has left");
     }
@@ -37,7 +37,7 @@ var RoomManager = function () {
     this.joinRoom = function(room_id, client) {
         // Check if room exists and join room if it's not full
         if(!this.roomExists(room_id) || this.roomIsFull(room_id)) {
-            return;
+            return false;
         }
         rooms[room_id].joinRoom(client);
         console.log(client.id + " has joined room " + room_id);

@@ -13,10 +13,10 @@ var rooms = new RoomManager();
 app.use('/public', express.static('public'));
 
 io.use(function(socket, next) {
-    var room_id = socket.request._query['room_id']
+    var room_id = socket.request._query['room_id'];
     rooms.joinRoom(room_id, socket);
     next();
-})
+});
 
 app.get('/', function(req, res){
     var room_id = shortid.generate();
