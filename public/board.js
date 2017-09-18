@@ -18,7 +18,8 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var board = [[]];
     var horizontalOffset;
     var verticalOffset;
-    var socket = io.connect('http://localhost:8080', { query: 'room_id=' + window.location.pathname.substr(1)});    
+    console.log(window.location.hostname);
+    var socket = io.connect(window.location.hostname, { query: 'room_id=' + window.location.pathname.substr(1)});    
 
     //setInterval(function() {socket.emit('putPiece', 3);}, 5000);
 
