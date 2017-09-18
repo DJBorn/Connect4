@@ -11,6 +11,11 @@ Room.prototype.isFull = function () {
     return this.host && this.guest;
 }
 
+Room.prototype.updateClient = function () {
+    this.host.socket.emit('updateBoard', this.board.board);
+    this.guest.socket.emit('updateBoard', this.board.board);
+}
+
 Room.prototype.joinRoom = function(client) {
     var new_player = {
         id: client.id,
@@ -27,10 +32,12 @@ Room.prototype.joinRoom = function(client) {
     if(this.isFull()) {
         var parent = this;
         this.host.socket.on('putPiece', function(column){
-            parent.board.putPiece(1, column)
+            parent.board.putPiece(1, column);
+            parent.updateClient();
         });
         this.guest.socket.on('putPiece', function(column){
-            parent.board.putPiece(2, column)
+            parent.board.putPiece(2, column);
+            parent.updateClient();
         });
     }
 }

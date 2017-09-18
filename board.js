@@ -45,4 +45,5 @@ Board.prototype.putPiece = function (piece, column) {
     *check if move won the game
     */
 }
+
 exports.Board = Board;

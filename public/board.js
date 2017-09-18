@@ -38,6 +38,10 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     // Resize the canvas whenever the window size changes
     window.addEventListener('resize', resizeCanvas, false);
 
+    socket.on('updateBoard', function(data){
+        board = data;
+    });
+
     // Gets the current cursor coodinates 
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
