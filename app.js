@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var shortid = require('shortid');
 var RoomManager = require('./roomManager.js').RoomManager;
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 80;
 
 var rooms = new RoomManager();
 
