@@ -15,10 +15,10 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var piece2Color = "rgb(240, 101, 67)";
     var player1 = 1;
     var player2 = 2;
-    var you;
     var board = [[]];
     var horizontalOffset;
     var verticalOffset;
+    var socket = io.connect('http://localhost:8080', { query: 'room_id=' + window.location.pathname.substr(1)});    
 
     //setInterval(function() {socket.emit('putPiece', 3);}, 5000);
 
@@ -28,10 +28,6 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
         for(var j = 0; j < columns; j++)
             board[i][j] = 0;
     }
-
-    // setInterval(function() {
-    //     board[Math.floor(Math.random()*rows)][Math.floor(Math.random()*columns)] = Math.floor(Math.random()*2)+1;
-    // }, 200)
 
     resizeCanvas();
 

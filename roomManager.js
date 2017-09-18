@@ -2,6 +2,7 @@ var Room = require('./room.js').Room;
 
 var RoomManager = function () {
     var rooms = {};
+    var roomTimer = 5000;
 
     this.createRoom = function(room_id) {
         if(rooms.hasOwnProperty(room_id)) {
@@ -25,16 +26,16 @@ var RoomManager = function () {
         for (var room in rooms) {
             if(!rooms.hasOwnProperty(room)) 
                 continue;
-
-            if(rooms[room].host && rooms[room].host.id == client_id)
-                rooms[room].host = null;
-            else if(rooms[room].guest && rooms[room].guest.id == client_id)
-                rooms[room].guest = null;
+            rooms[room].leave(client_id);
+            if(rooms[room].isEmpty())
+                rooms[room].timeOut = setTimeout(function(){ delete rooms[room];}, roomTimer);
         }
         console.log(client_id + " has left");
     }
 
     this.joinRoom = function(room_id, client) {
+        if(this.roomExists(room_id))
+            clearTimeout(rooms[room_id].timeOut);
         // Check if room exists and join room if it's not full
         if(!this.roomExists(room_id) || this.roomIsFull(room_id)) {
             return false;
