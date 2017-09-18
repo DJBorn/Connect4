@@ -19,7 +19,11 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var horizontalOffset;
     var verticalOffset;
     console.log(window.location.hostname);
-    var socket = io.connect(window.location.hostname, { query: 'room_id=' + window.location.pathname.substr(1)});    
+    var socket = io.connect(window.location.hostname, { 
+        query: 'room_id=' + window.location.pathname.substr(1),
+        transports: ['websocket'], 
+        upgrade: false
+    });    
 
     //setInterval(function() {socket.emit('putPiece', 3);}, 5000);
 
