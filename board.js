@@ -18,30 +18,31 @@ var Board = function (rows, columns){
 
 Board.prototype.putPiece = function (piece, column) {
     console.log("Player " + piece + " wanted to put a piece at " + column);
-    for (var i = 0; i < this.rows; i++) {
-        //console.log("");
-        for (var j = column; j <= column; j++) {
-            if (this.board[0][j] === 1) {
-                console.log("Column is full");
-                return;
-            }
-            else if (this.board[0][j] === 2) {
-                console.log("Column is full");
-                return;
-            }
-            else if (this.board[i][j] === 1) {
-                //idon'tknowhatshappeninganymore
-                console.log("Board now looks like:");
-                console.log(this.board);
-            }
-            else {
-                this.board[i][j] = piece;
-                console.log("Board now looks like:");
-                console.log(this.board);
-                return;
-                //console.log("");
-            }
-        }
+
+    //check if column is full
+    if (this.board[0][column] === 1 || this.board[0][column] === 2) {
+        console.log("Column is full");
+        return false;
     }
+
+    //check if column has a piece in it, places piece above the last piece
+    for (var i = 0; i < this.rows; i++) {       
+        if (this.board[i][column] === 1 || this.board[i][column] === 2) {
+            this.board[i-1][column] = piece;
+            console.log("Board now looks like:");
+            console.log(this.board);
+            return true;
+        }     
+    }
+
+    //places a piece at the bottom of the board.
+    this.board[this.rows - 1][column] = piece;
+    console.log("Board now looks like:");
+    console.log(this.board);
+    return true;
+
+    /* @todo 
+    *check if move won the game
+    */
 }
 exports.Board = Board;
