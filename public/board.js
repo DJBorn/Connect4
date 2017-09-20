@@ -1,8 +1,3 @@
-/*
-* @todo
-* make the socket emit the correct column to the server.
-*/
-
 var Board = function(new_canvas, rows = 6, columns = 7) {
     var canvas = new_canvas;
     var ctx = canvas.getContext('2d');
@@ -19,11 +14,8 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var horizontalOffset;
     var verticalOffset;
     console.log(window.location.hostname);
-    var socket = io.connect(window.location.hostname, { 
-        query: 'room_id=' + window.location.pathname.substr(1),
-        transports: ['websocket'], 
-        upgrade: false
-    });    
+    var socket = io.connect(window.location.hostname, { query: 'room_id=' + window.location.pathname.substr(1)});   
+    
 
     //setInterval(function() {socket.emit('putPiece', 3);}, 5000);
 
