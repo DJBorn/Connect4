@@ -18,10 +18,10 @@ var Board = function (rows, columns){
 
 Board.prototype.putPiece = function (piece, column) {
 
-    var winner;
     var lastTurnRow;
     var lastTurnColumn; 
     var lastTurnPiece;
+    var parent = this; //used to look at parent function board object
 
     console.log("Player " + piece + " wanted to put a piece at " + column);
 
@@ -42,7 +42,9 @@ Board.prototype.putPiece = function (piece, column) {
 
             console.log("Board now looks like:");
             console.log(this.board);
-            return true;
+
+            getWinningPlayer();
+            return true; //start next player move
         }     
     }
 
@@ -53,26 +55,29 @@ Board.prototype.putPiece = function (piece, column) {
     lastTurnPiece = piece;
     console.log("Board now looks like:");
     console.log(this.board);
-    //return true;
 
-    /* @todo 
-    * getWinnerPlayer()
-    * check if move won the game
-    * returns: false if no win, or the player who won
+    /*  
+    * getWinningPlayer()
+    * check if most recent move won the game
+    * returns: false if no win, or the player (piece) who won
     */
     function getWinningPlayer(){
-        var counter = 1;
+        var counter = 1; //counts same pieces found in a row
+        var increment = 1; //used to increment through the board
 
         //check up and down for a winning match
-        while (this.board[this.lastTurnRow - 1] && this.board[this.lastTurnRow - 1][this.lastTurnColumn] === this.lastTurnPiece){
+        while (parent.board[lastTurnRow - increment] && parent.board[lastTurnRow - increment][lastTurnColumn] === lastTurnPiece){
             console.log("Found same player piece above.");
             counter++;
+            increment++;
         }   
-        /*
-        while (this.board[lastTurnRow + 1] && this.board[lastTurnRow + 1][lastTurnColumn] === lastTurnPiece){
+        increment = 1; //reseting the incrementer for the next loop
+        while (parent.board[lastTurnRow + increment] && parent.board[lastTurnRow + increment][lastTurnColumn] === lastTurnPiece){
             console.log("Found same player piece below.");
             counter++;
+            increment++;
         }
+        increment = 1;
         if (counter >= 4) {
             //player with this piece has won.
             console.log("Player " + piece + " has won!");
@@ -84,14 +89,18 @@ Board.prototype.putPiece = function (piece, column) {
         }
 
         //check left and right for a winning match
-        while (this.board[lastTurnRow][lastTurnColumn - 1] === lastTurnPiece){
+        while (parent.board[lastTurnRow][lastTurnColumn - increment] === lastTurnPiece){
             console.log("Found same player piece left.");
             counter++;
+            increment++;
         }   
-        while (this.board[lastTurnRow][lastTurnColumn + 1] === lastTurnPiece){
+        increment = 1;
+        while (parent.board[lastTurnRow][lastTurnColumn + increment] === lastTurnPiece){
             console.log("Found same player piece right.");
             counter++;
+            increment++;
         }
+        increment = 1;
         if (counter >= 4) {
             //player with this piece has won.
             console.log("Player " + piece + " has won!");
@@ -103,47 +112,56 @@ Board.prototype.putPiece = function (piece, column) {
         }
 
         //check up and left diagnol with down and right diagnol
-        while (this.board[lastTurnRow-1] && this.board[lastTurnRow-1][lastTurnColumn - 1] === lastTurnPiece){
+        while (parent.board[lastTurnRow - increment] && parent.board[lastTurnRow - increment][lastTurnColumn - increment] === lastTurnPiece){
             console.log("Found same player piece diagnol (up and left).");
             counter++;
+            increment++;
         }   
-        while (this.board[lastTurnRow+1] && this.board[lastTurnRow+1][lastTurnColumn + 1] === lastTurnPiece){
+        increment = 1;
+        while (parent.board[lastTurnRow + increment] && parent.board[lastTurnRow + increment][lastTurnColumn + increment] === lastTurnPiece){
             console.log("Found same player piece diagnol (down and right).");
             counter++;
+            increment++;
         }
+        increment = 1;
         if (counter >= 4) {
-            //player with this piece has won.
             console.log("Player " + piece + " has Won!");
             return piece;
         }
         else {
+            console.log("No diagnol win. (up and left to down and right)")
             counter = 1;
         }
 
         //check up and right diagnol with down and left diagnol
-        while (this.board[lastTurnRow - 1] && this.board[lastTurnRow - 1][lastTurnColumn + 1] === lastTurnPiece){
+        while (parent.board[lastTurnRow - increment] && parent.board[lastTurnRow - increment][lastTurnColumn + increment] === lastTurnPiece){
             console.log("Found same player piece diagnol (up and right).");
             counter++;
+            increment++;
         }   
-        while (this.board[lastTurnRow + 1] && this.board[lastTurnRow + 1][lastTurnColumn - 1] === lastTurnPiece){
+        increment = 1;
+        while (parent.board[lastTurnRow + increment] && parent.board[lastTurnRow + increment][lastTurnColumn - increment] === lastTurnPiece){
             console.log("Found same player piece diagnol (down and left).");
             counter++;
+            increment++;
         }
+        increment = 1;
         if (counter >= 4) {
-            //player with this piece has won.
             console.log("Player " + piece + " has Won!");
             return piece;
         }
         //no win on this turn
         else {
-            console.log("Player " + piece + " did not win with last piece.")
+            console.log("No diagnol win. (up and right to down and left)");
+            console.log("Player " + piece + " did not win with last piece.");
+            console.log(); //line break for easier debugging
             return false;
         }
-        */
+        
     }
 
     getWinningPlayer();
-    
+    return true; //start next player move
 }
 
 exports.Board = Board;
