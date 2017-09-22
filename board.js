@@ -8,6 +8,7 @@ var Board = function (rows, columns){
     this.board = [];
     this.rows = rows;
     this.columns = columns;
+    this.winner = false;
     for(var i = 0; i < rows; i++) {
         this.board[i] = [];
         for(var j = 0; j < columns; j++) {
@@ -23,11 +24,11 @@ Board.prototype.putPiece = function (piece, column) {
     var lastTurnPiece;
     var parent = this; //used to look at parent function board object
 
-    console.log("Player " + piece + " wanted to put a piece at " + column);
+    // console.log("Player " + piece + " wanted to put a piece at " + column);
 
     //check if column is full
     if (this.board[0][column] === 1 || this.board[0][column] === 2) {
-        console.log("Column is full");
+         console.log("Column is full");
         return false;
     }
 
@@ -40,10 +41,10 @@ Board.prototype.putPiece = function (piece, column) {
             lastTurnColumn = column;
             lastTurnPiece = piece;
 
-            console.log("Board now looks like:");
-            console.log(this.board);
+            // console.log("Board now looks like:");
+            // console.log(this.board);
 
-            getWinningPlayer();
+            this.winner = getWinningPlayer();
             return true; //start next player move
         }     
     }
@@ -53,8 +54,8 @@ Board.prototype.putPiece = function (piece, column) {
     lastTurnRow = this.rows-1;
     lastTurnColumn = column;
     lastTurnPiece = piece;
-    console.log("Board now looks like:");
-    console.log(this.board);
+    // console.log("Board now looks like:");
+    // console.log(this.board);
 
     /*  
     * getWinningPlayer()
@@ -67,100 +68,100 @@ Board.prototype.putPiece = function (piece, column) {
 
         //check up and down for a winning match
         while (parent.board[lastTurnRow - increment] && parent.board[lastTurnRow - increment][lastTurnColumn] === lastTurnPiece){
-            console.log("Found same player piece above.");
+            // console.log("Found same player piece above.");
             counter++;
             increment++;
         }   
         increment = 1; //reseting the incrementer for the next loop
         while (parent.board[lastTurnRow + increment] && parent.board[lastTurnRow + increment][lastTurnColumn] === lastTurnPiece){
-            console.log("Found same player piece below.");
+            // console.log("Found same player piece below.");
             counter++;
             increment++;
         }
         increment = 1;
         if (counter >= 4) {
             //player with this piece has won.
-            console.log("Player " + piece + " has won!");
+            // console.log("Player " + piece + " has won!");
             return piece;
         }
         else {
-            console.log("No vertical win.")
+            // console.log("No vertical win.")
             counter = 1;
         }
 
         //check left and right for a winning match
         while (parent.board[lastTurnRow][lastTurnColumn - increment] === lastTurnPiece){
-            console.log("Found same player piece left.");
+            // console.log("Found same player piece left.");
             counter++;
             increment++;
         }   
         increment = 1;
         while (parent.board[lastTurnRow][lastTurnColumn + increment] === lastTurnPiece){
-            console.log("Found same player piece right.");
+            // console.log("Found same player piece right.");
             counter++;
             increment++;
         }
         increment = 1;
         if (counter >= 4) {
             //player with this piece has won.
-            console.log("Player " + piece + " has won!");
+            // console.log("Player " + piece + " has won!");
             return piece;
         }
         else {
-            console.log("No horozontal win.")
+            // console.log("No horozontal win.")
             counter = 1;
         }
 
-        //check up and left diagnol with down and right diagnol
+        //check up and left diagonal with down and right diagonal
         while (parent.board[lastTurnRow - increment] && parent.board[lastTurnRow - increment][lastTurnColumn - increment] === lastTurnPiece){
-            console.log("Found same player piece diagnol (up and left).");
+            // console.log("Found same player piece diagonal (up and left).");
             counter++;
             increment++;
         }   
         increment = 1;
         while (parent.board[lastTurnRow + increment] && parent.board[lastTurnRow + increment][lastTurnColumn + increment] === lastTurnPiece){
-            console.log("Found same player piece diagnol (down and right).");
+            // console.log("Found same player piece diagonal (down and right).");
             counter++;
             increment++;
         }
         increment = 1;
         if (counter >= 4) {
-            console.log("Player " + piece + " has Won!");
+            // console.log("Player " + piece + " has Won!");
             return piece;
         }
         else {
-            console.log("No diagnol win. (up and left to down and right)")
+            // console.log("No diagonal win. (up and left to down and right)")
             counter = 1;
         }
 
-        //check up and right diagnol with down and left diagnol
+        //check up and right diagonal with down and left diagonal
         while (parent.board[lastTurnRow - increment] && parent.board[lastTurnRow - increment][lastTurnColumn + increment] === lastTurnPiece){
-            console.log("Found same player piece diagnol (up and right).");
+            // console.log("Found same player piece diagonal (up and right).");
             counter++;
             increment++;
         }   
         increment = 1;
         while (parent.board[lastTurnRow + increment] && parent.board[lastTurnRow + increment][lastTurnColumn - increment] === lastTurnPiece){
-            console.log("Found same player piece diagnol (down and left).");
+            // console.log("Found same player piece diagonal (down and left).");
             counter++;
             increment++;
         }
         increment = 1;
         if (counter >= 4) {
-            console.log("Player " + piece + " has Won!");
+            // console.log("Player " + piece + " has Won!");
             return piece;
         }
         //no win on this turn
         else {
-            console.log("No diagnol win. (up and right to down and left)");
-            console.log("Player " + piece + " did not win with last piece.");
-            console.log(); //line break for easier debugging
+            // console.log("No diagonal win. (up and right to down and left)");
+            // console.log("Player " + piece + " did not win with last piece.");
+            // console.log(); //line break for easier debugging
             return false;
         }
         
     }
 
-    getWinningPlayer();
+    this.winner = getWinningPlayer();
     return true; //start next player move
 }
 

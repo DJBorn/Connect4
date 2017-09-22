@@ -69,7 +69,7 @@ Room.prototype.joinRoom = function(client) {
     var parent = this;
     // Add listener for putting a piece for the new client
     client.on('putPiece', function(column){
-        if(roleAssign == parent.turn && !parent.gameEnded) {
+        if(!parent.board.winner && roleAssign == parent.turn && !parent.gameEnded) {
             if(parent.board.putPiece(pieceAssign, column))
                 parent.changeTurns();
         }

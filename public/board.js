@@ -13,8 +13,13 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     var board = [[]];
     var horizontalOffset;
     var verticalOffset;
-    console.log(window.location.hostname);
-    var socket = io.connect(window.location.hostname, { query: 'room_id=' + window.location.pathname.substr(1)});   
+    
+    
+    var socket = io.connect(window.location.hostname, { 
+        query: 'room_id=' + window.location.pathname.substr(1),
+        transports: ['websocket'], 
+        upgrade: false
+    });    
     
 
     //setInterval(function() {socket.emit('putPiece', 3);}, 5000);
@@ -47,6 +52,8 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
     // Listens for a click. Returns the region clicked to the console.
     window.addEventListener('click', function(evt) {
 
+        console.log(evt);
+        console.log(canvas.getBoundingClientRect());
         // gets the cursor postion
         var mousePos = getMousePos(canvas, evt);
 
@@ -69,11 +76,11 @@ var Board = function(new_canvas, rows = 6, columns = 7) {
         // Determines which region to return based on the cursor coordinates
         for (var i = 0; i < columns; i++) {
             if (mousePos.x < regions[i + 1] && mousePos.x > regions[i]) {
-                console.log("clicked in region: " + i); 
+                // console.log("clicked in region: " + i); 
                 socket.emit('putPiece', i);
             }
             else if (i === columns-1 && mousePos.x >= regions[i] && mousePos.x <= regions[i] + cellLength) { 
-                console.log("clicked in region: " + i);
+                // console.log("clicked in region: " + i);
                 socket.emit('putPiece', i);
             }
         }
