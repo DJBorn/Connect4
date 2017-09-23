@@ -24,6 +24,8 @@ var GameCanvas = function(new_canvas) {
         return columns;
     }
 
+
+
     /* Given the column (0 <= column < columns), return an object with the x, y, width, and height of that column
         E.g. {
             x: 40,
@@ -68,6 +70,15 @@ var GameCanvas = function(new_canvas) {
         drawBoard();
     }
 
+    function drawMessage(string) {
+        ctx.font = "50px Arial";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx.fillText(string, canvas.width/2, canvas.height/2);
+        ctx.color = "black";
+        ctx.strokeText(string, canvas.width/2, canvas.height/2);
+    }
+
     function drawBoard() {
         // Draw background
         ctx.rect(0, 0, canvas.width, canvas.height);
@@ -76,6 +87,9 @@ var GameCanvas = function(new_canvas) {
 
         // Draw holes
         drawHoles();
+
+        // Draw message
+        drawMessage("Waiting for player to join...");
     }
 
     function drawHoles(x, y){
