@@ -4,6 +4,7 @@ var ServerCommunicator = function() {
         transports: ['websocket'], 
         upgrade: false
     });
+    
     this.putPiece = function(column) {
         socket.emit('putPiece', column);
     }

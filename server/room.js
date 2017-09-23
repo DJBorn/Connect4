@@ -1,11 +1,11 @@
-var Board = require('./board.js').Board;
+var Game = require('./game.js').Game;
 
 var Room = function (room_id){
     this.room_id = room_id;
     this.host = null;
     this.guest = null;
     this.gameEnded = false;
-    this.board = new Board(6, 7);
+    this.game = new Game(6, 7);
     this.turn = "host";
 }
 
@@ -26,9 +26,9 @@ Room.prototype.isEmpty = function () {
 
 Room.prototype.updateClient = function () {
     if(this.host)
-        this.host.socket.emit('updateBoard', this.board.board);
+        this.host.socket.emit('updateBoard', this.game.board);
     if(this.guest)
-        this.guest.socket.emit('updateBoard', this.board.board);
+        this.guest.socket.emit('updateBoard', this.game.board);
 }
 
 Room.prototype.leave = function(client_id) {
@@ -69,8 +69,8 @@ Room.prototype.joinRoom = function(client) {
     var parent = this;
     // Add listener for putting a piece for the new client
     client.on('putPiece', function(column){
-        if(!parent.board.winner && roleAssign == parent.turn && !parent.gameEnded) {
-            if(parent.board.putPiece(pieceAssign, column))
+        if(!parent.game.winner && roleAssign == parent.turn) {
+            if(parent.game.putPiece(pieceAssign, column))
                 parent.changeTurns();
         }
         parent.updateClient();

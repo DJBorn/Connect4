@@ -1,16 +1,17 @@
 var Room = require('./room.js').Room;
+var shortid = require('shortid');
 
 var RoomManager = function () {
     var rooms = {};
     var roomTimer = 60000;
 
-    this.createRoom = function(room_id) {
-        if(rooms.hasOwnProperty(room_id)) {
-            console.log("Room already exists.");
-            return false;
+    this.createRoom = function() {
+        room_id = shortid.generate();
+        while(this.roomExists(room_id)) {
+            room_id = shortid.generate();
         }
         rooms[room_id] = new Room(room_id);
-        return true;
+        return room_id;
     }
 
     this.roomIsFull = function(room_id) {

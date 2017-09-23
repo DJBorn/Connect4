@@ -2,12 +2,12 @@ var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var shortid = require('shortid');
-var RoomManager = require('./roomManager.js').RoomManager;
+var RoomManager = require('./server/roomManager.js').RoomManager;
 
 var port = process.env.PORT || 80;
 
 var rooms = new RoomManager();
+//var client_communicator = new ClientCommunicator(http);
 
 // Front-end files
 app.use('/public', express.static('public'));
@@ -19,11 +19,7 @@ io.use(function(socket, next) {
 });
 
 app.get('/', function(req, res){
-    var room_id = shortid.generate();
-    while(rooms.roomExists(room_id)) {
-        room_id = shortid.generate();
-    }
-    rooms.createRoom(room_id);
+    room_id = rooms.createRoom(room_id);
     res.redirect('/' + room_id);
     // Create new rooms
 });
@@ -38,11 +34,7 @@ app.get('/:room_id', function(req, res){
     }
     // Otherwise create a new room and redirect to that room
     else {
-        room_id = shortid.generate();
-        while(rooms.roomExists(room_id)) {
-            room_id = shortid.generate();
-        }
-        rooms.createRoom(room_id);
+        room_id = rooms.createRoom(room_id);
         res.redirect('/' + room_id);
     }
 });

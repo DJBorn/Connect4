@@ -4,7 +4,7 @@
 * 
 */
 
-var Board = function (rows, columns){
+var Game = function (rows, columns){
     this.board = [];
     this.rows = rows;
     this.columns = columns;
@@ -17,7 +17,7 @@ var Board = function (rows, columns){
     }
 }
 
-Board.prototype.putPiece = function (piece, column) {
+Game.prototype.putPiece = function (piece, column) {
 
     var lastTurnRow;
     var lastTurnColumn; 
@@ -165,4 +165,4 @@ Board.prototype.putPiece = function (piece, column) {
     return true; //start next player move
 }
 
-exports.Board = Board;
+exports.Game = Game;

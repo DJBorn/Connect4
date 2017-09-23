@@ -20,12 +20,12 @@ server_communicator.addListener('updateBoard', function(data) {
 // Add a listener to resize the canvas and board when the screen is resized
 input_handler.addListener('resize', 'resizeBoard', game_canvas.resizeCanvas);
 
-// Temporary timeoutZZ
+// Temporary timeout
 setTimeout(function(){
 
 // Add a mouseup event listener for each column on the connect 4 board
 for(var i = 0; i < game_canvas.getNumberOfColumns(); i++) {
-    input_handler.addListener('mouseup', 'putPieceColumn' + i, server_communicator.putPiece, [i], game_canvas.getColumnRegion(i));
+    input_handler.addListener('mouseup', 'putPieceColumn' + i, server_communicator.putPiece, [i], game_canvas.getColumnRegion, [i]);
 }
 
 }, 1000);
