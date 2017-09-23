@@ -7,7 +7,7 @@ var InputHandler = function() {
     this.addListener = function(event, name, fn, params, region) {
         // If the event already exists then just push it to the existing list of listeners
         if(!events.has(event)) {
-            listeners[event] = [];
+            listeners[event] = {};
             window.addEventListener(event, function(evt) {
                 for(var name in listeners[event]) {
                     if(!listeners[event].hasOwnProperty(name))

@@ -33,7 +33,12 @@ var GameCanvas = function(new_canvas) {
         }
     */
     this.getColumnRegion = function(column) {
-
+        return {
+            x : cellLength * column + horizontalOffset,
+            y : verticalOffset,
+            width : cellLength,
+            height : canvas.height - verticalOffset
+        };
     }
 
     this.resizeCanvas = function() {
