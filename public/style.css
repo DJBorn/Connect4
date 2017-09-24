@@ -9,3 +9,47 @@ html, body {
 canvas {
     position:absolute;
 }
+ 
+#copy_url {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    display: none;
+}
+
+#url {
+    margin-top: 10px;
+    font-size: 20px;
+    width: 600px;
+}
+
+.read_text {
+    font-family: "Josefin Sans";
+    color: white;
+    font-size: 25px;
+}
+
+#copy_button {
+    font-family: "Josefin Sans";
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 300px;
+    padding: 15px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    color: white;
+    background-color: #473F42;
+}

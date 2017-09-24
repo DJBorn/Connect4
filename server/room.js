@@ -34,14 +34,18 @@ Room.prototype.updateClient = function () {
 Room.prototype.leave = function(client_id) {
     if(this.host && this.host.id == client_id) {
         this.host = null;
+        if(this.guest)
+            this.guest.socket.emit('showShareURLMessage', true);
     }
     if(this.guest && this.guest.id == client_id) {
         this.guest = null;
+        if(this.host)
+            this.host.socket.emit('showShareURLMessage', true);
     }
 }
 
 Room.prototype.joinRoom = function(client) {
-    if(this.host && this.guest) {
+    if(this.isFull()) {
         console.log("Room is full");
         return null;
     }
@@ -58,18 +62,26 @@ Room.prototype.joinRoom = function(client) {
         this.host = new_player;
         pieceAssign = 1;
         roleAssign = "host";
+        if(!this.isFull())
+            this.host.socket.emit('showShareURLMessage', true);
+        else
+            this.guest.socket.emit('showShareURLMessage', false);
     }
     // Then try to fill the guest position
     else if(!this.guest) {
         this.guest = new_player;
         pieceAssign = 2;
         roleAssign = "guest";
+        if(!this.isFull())
+            this.guest.socket.emit('showShareURLMessage', true);
+        else
+            this.host.socket.emit('showShareURLMessage', false);
     }
 
     var parent = this;
     // Add listener for putting a piece for the new client
     client.on('putPiece', function(column){
-        if(!parent.game.winner && roleAssign == parent.turn) {
+        if(parent.isFull() && !parent.game.winner && roleAssign == parent.turn) {
             if(parent.game.putPiece(pieceAssign, column))
                 parent.changeTurns();
         }

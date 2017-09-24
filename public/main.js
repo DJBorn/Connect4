@@ -2,7 +2,16 @@
 var game_canvas = new GameCanvas(document.getElementById('canvas'));
 var server_communicator = new ServerCommunicator();
 var input_handler = new InputHandler();
+var html_components = new HTMLComponents();
 var game_state = 'waiting_for_guest_player';
+
+function copyURL() {
+    html_components.copyURL();
+}
+
+server_communicator.addListener('showShareURLMessage', function(flag) {
+    html_components.showCopyURL(flag);
+});
 
 function drawCanvas() {
     game_canvas.drawCanvas();

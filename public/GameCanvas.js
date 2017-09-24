@@ -4,6 +4,7 @@ var GameCanvas = function(new_canvas) {
     var cellLength;
     var boardWidth;
     var boardHeight;
+    var fontSize = 20;
     var backgroundColor = "rgb(95, 160, 255)"; //board color
     var backgroundShade = "rgb(50, 120, 225)"; //hole color
     var piece1Color = "rgb(245, 328, 158)"; 
@@ -16,6 +17,12 @@ var GameCanvas = function(new_canvas) {
     var horizontalOffset;
     var verticalOffset;
 
+    var showWaitMessage = false;
+
+    this.setWaitMessage = function(val) {
+        showWaitMessage = val;
+    }
+
     this.setBoard = function(new_board) {
         board = new_board;
     }
@@ -24,16 +31,7 @@ var GameCanvas = function(new_canvas) {
         return columns;
     }
 
-
-
-    /* Given the column (0 <= column < columns), return an object with the x, y, width, and height of that column
-        E.g. {
-            x: 40,
-            y: 40,
-            width: 200,
-            height: 800
-        }
-    */
+    // Given the column, return an object with the x, y, width, and height of that column
     this.getColumnRegion = function(column) {
         return {
             x : cellLength * column + horizontalOffset,
@@ -63,20 +61,24 @@ var GameCanvas = function(new_canvas) {
 
         // Set the x and y position of the board
         horizontalOffset = (canvas.width - boardWidth)/2;
-        verticalOffset = canvas.height - boardHeight;
+        verticalOffset = (canvas.height - boardHeight)/2;
+
+        fontSize = boardWidth/15;
     }
 
     this.drawCanvas = function() {
         drawBoard();
+        
+        // Draw wait message if waiting for player
+       // if (showWaitMessage)
+         //   drawMessage("Share your URL to play");
     }
 
     function drawMessage(string) {
-        ctx.font = "50px Arial";
+        ctx.font = fontSize + "px Josefin Sans";
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
-        ctx.fillText(string, canvas.width/2, canvas.height/2);
-        ctx.color = "black";
-        ctx.strokeText(string, canvas.width/2, canvas.height/2);
+        ctx.fillText(string, canvas.width/2, verticalOffset + boardHeight/2);
     }
 
     function drawBoard() {
@@ -87,9 +89,6 @@ var GameCanvas = function(new_canvas) {
 
         // Draw holes
         drawHoles();
-
-        // Draw message
-        drawMessage("Waiting for player to join...");
     }
 
     function drawHoles(x, y){

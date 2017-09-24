@@ -4,10 +4,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
         <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
         <link rel="stylesheet" href="./public/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Anton|Josefin+Sans|Rubik" rel="stylesheet">
     </head>
     <body>
         <canvas id="canvas"></canvas>
+        <div id="copy_url">
+            <div class="read_text">Share your URL with your friend to play</div>
+            <input type="text" id="url" spellcheck="false" value="" readonly/>
+            <button id="copy_button" onclick="copyURL()">Copy URL</button>
+        </div>
+
         <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="./public/HTMLComponents.js"></script>
         <script type="text/javascript" src="./public/ServerCommunicator.js"></script>
         <script type="text/javascript" src="./public/InputHandler.js"></script>
         <script type="text/javascript" src="./public/GameCanvas.js"></script>
