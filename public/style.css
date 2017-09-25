@@ -34,7 +34,7 @@ canvas {
     width: 600px;
 }
 
-.url_text {
+#url_text {
     font-family: "Josefin Sans";
     color: white;
     font-size: 25px;
