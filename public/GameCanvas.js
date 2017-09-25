@@ -31,6 +31,15 @@ var GameCanvas = function(new_canvas) {
         return columns;
     }
 
+    this.getBoardCoordinates = function() {
+        return {
+            x: horizontalOffset,
+            y: verticalOffset,
+            width: boardWidth,
+            height: boardHeight
+        }
+    }
+
     // Given the column, return an object with the x, y, width, and height of that column
     this.getColumnRegion = function(column) {
         return {
