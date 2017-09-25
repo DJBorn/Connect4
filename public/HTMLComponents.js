@@ -40,6 +40,21 @@ var HTMLComponents = function() {
         // url_text -> Element of the text shown to user to copy and share ("Share your URL with your friend to play")
         // url_textbox -> Element that contains the actual URL ("http://locahost/fkasjlf")
         // copy_button -> Element that contains the copy button [Copy URL]
+        var urlTextWidthScale, urlTextFontScale;
+        var urlTextBoxWidthScale, urlTextBoxFontScale;
+        var copyWidthScale, copyFontScale;
 
+        urlTextWidthScale = boardCoordinates.width * 0.7;
+        urlTextFontScale = urlTextWidthScale* 0.03;
+
+        urlTextBoxWidthScale = boardCoordinates.width * 0.50;
+        urlTextBoxFontScale = urlTextBoxWidthScale * 0.04;
+        
+        copyWidthScale= boardCoordinates.width * 0.25;
+        copyFontScale = copyWidthScale* 0.1;
+
+        url_text.setAttribute("style","width: " + urlTextWidthScale + "px; font-size: " + urlTextFontScale + "px;"); 
+        url_textbox.setAttribute("style","width: " + urlTextBoxWidthScale + "px; font-size: "+urlTextBoxFontScale + "px;"); 
+        copy_button.setAttribute("style","width: " + copyWidthScale+ "px; font-size: " + copyFontScale + "px;"); 
     }
 }
