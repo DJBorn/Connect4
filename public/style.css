@@ -21,6 +21,7 @@ canvas {
     text-align: center;
     left: 50%;
     top: 50%;
+    width: 100%;
     transform: translate(-50%, -50%);
     position: absolute;
     flex-direction: column;
@@ -30,23 +31,18 @@ canvas {
 
 #url {
     margin-top: 10px;
-    font-size: 20px;
-    width: 600px;
 }
 
 #url_text {
     font-family: "Josefin Sans";
     color: white;
-    font-size: 25px;
 }
 
 #copy_button {
     cursor: pointer;
     font-family: "Josefin Sans";
-    font-size: 25px;
     font-weight: bold;
     margin-top: 10px;
-    width: 300px;
     padding: 15px;
     border: none;
     outline: none;

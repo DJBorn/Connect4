@@ -24,6 +24,7 @@ window.requestAnimationFrame(drawCanvas);
 server_communicator.addListener('updateBoard', function(data) {
     game_canvas.setBoard(data);
     game_canvas.resizeCanvas();
+    html_components.resizeComponents(game_canvas.getBoardCoordinates());
 });
 
 // Add a listener to resize the canvas and board when the screen is resized

@@ -84,11 +84,11 @@ Room.prototype.joinRoom = function(client) {
         if(parent.isFull() && !parent.game.winner && roleAssign == parent.turn) {
             if(parent.game.putPiece(pieceAssign, column))
                 parent.changeTurns();
+            parent.updateClient();
         }
-        parent.updateClient();
     });
 
-    parent.updateClient();
+    this.updateClient();
     return true;
 }
 

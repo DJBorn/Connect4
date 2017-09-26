@@ -16,10 +16,12 @@ var HTMLComponents = function() {
     
         // Change the button to notify the user the button has been pressed
         copy_button.innerHTML = "URL Copied";
-        copy_button.setAttribute("style", "color: #473F42; background-color: white");
+        copy_button.style.color = "#473F42"
+        copy_button.style["background-color"] = "white";
         setTimeout(function() {
             copy_button.innerHTML = "Copy URL";
-            copy_button.setAttribute("style", "color: white; background-color: #473F42");
+            copy_button.style.color = "white"
+            copy_button.style["background-color"] = "#473F42";
         }, 2000);
     }
 
@@ -36,25 +38,31 @@ var HTMLComponents = function() {
     // Resize the HTML components given the board coordinates
     // @input obj -> {x, y, width, height}
     this.resizeComponents = function(boardCoordinates) {
+        console.log("resized");
         // Below are class variables that contain the elements that compose the share URL message
         // url_text -> Element of the text shown to user to copy and share ("Share your URL with your friend to play")
         // url_textbox -> Element that contains the actual URL ("http://locahost/fkasjlf")
         // copy_button -> Element that contains the copy button [Copy URL]
         var urlTextWidthScale, urlTextFontScale;
-        var urlTextBoxWidthScale, urlTextBoxFontScale;
-        var copyWidthScale, copyFontScale;
+        var urlTextBoxWidthScale, urlTextBoxFontScale, urlTextBoxMarginTop;
+        var copyWidthScale, copyFontScale, copyMarginTop, copyPadding;
 
-        urlTextWidthScale = boardCoordinates.width * 0.7;
-        urlTextFontScale = urlTextWidthScale* 0.03;
+        urlTextWidthScale = boardCoordinates.width;
+        urlTextFontScale = urlTextWidthScale* 0.05;
 
         urlTextBoxWidthScale = boardCoordinates.width * 0.50;
         urlTextBoxFontScale = urlTextBoxWidthScale * 0.04;
+        urlTextBoxMarginTop = boardCoordinates.width * 0.025;
         
-        copyWidthScale= boardCoordinates.width * 0.25;
+        copyWidthScale = boardCoordinates.width * 0.25;
         copyFontScale = copyWidthScale* 0.1;
+        copyMarginTop = boardCoordinates.width * 0.025;
+        copyPadding = boardCoordinates.width * 0.02;
 
         url_text.setAttribute("style","width: " + urlTextWidthScale + "px; font-size: " + urlTextFontScale + "px;"); 
-        url_textbox.setAttribute("style","width: " + urlTextBoxWidthScale + "px; font-size: "+urlTextBoxFontScale + "px;"); 
-        copy_button.setAttribute("style","width: " + copyWidthScale+ "px; font-size: " + copyFontScale + "px;"); 
+        url_textbox.setAttribute("style","width: " + urlTextBoxWidthScale + "px; font-size: "+urlTextBoxFontScale + "px;"
+        + "margin-top: " + urlTextBoxMarginTop + "px;"); 
+        copy_button.setAttribute("style","width: " + copyWidthScale+ "px; font-size: " + copyFontScale + "px; margin-top: " 
+        + copyMarginTop + "px; padding: " + copyPadding + "px;"); 
     }
 }
