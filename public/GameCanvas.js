@@ -77,10 +77,22 @@ var GameCanvas = function(new_canvas) {
 
     this.drawCanvas = function() {
         drawBoard();
-        
+
+        //gets the column region and draws the highlight
+        var obj = this.getColumnRegion(1);
+        this.drawHighlight(obj);
+
         // Draw wait message if waiting for player
        // if (showWaitMessage)
          //   drawMessage("Share your URL to play");
+    }
+
+    
+    this.drawHighlight = function(columnRegion) {
+        ctx.rect(columnRegion.x, columnRegion.y, columnRegion.width, boardHeight);
+        console.log(columnRegion.height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+        ctx.fill();
     }
 
     function drawMessage(string) {
