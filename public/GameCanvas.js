@@ -16,6 +16,7 @@ var GameCanvas = function(new_canvas) {
     var columns = 0;
     var horizontalOffset;
     var verticalOffset;
+    var displayHighlight = [];
 
     var showWaitMessage = false;
 
@@ -25,6 +26,10 @@ var GameCanvas = function(new_canvas) {
 
     this.setBoard = function(new_board) {
         board = new_board;
+    }
+
+    this.setDisplayHighlight = function(index, value) {
+        displayHighlight[index] = value;
     }
 
     this.getNumberOfColumns = function () {
@@ -79,8 +84,10 @@ var GameCanvas = function(new_canvas) {
         drawBoard();
 
         //gets the column region and draws the highlight
-        var obj = this.getColumnRegion(1);
-        this.drawHighlight(obj);
+        for(let i = 0; i < columns; i++) {
+            if(displayHighlight[i])
+             this.drawHighlight(this.getColumnRegion(i));
+        }
 
         // Draw wait message if waiting for player
        // if (showWaitMessage)

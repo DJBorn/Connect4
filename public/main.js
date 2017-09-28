@@ -3,14 +3,22 @@ var game_canvas = new GameCanvas(document.getElementById('canvas'));
 var server_communicator = new ServerCommunicator();
 var input_handler = new InputHandler();
 var html_components = new HTMLComponents();
-var game_state = 'waiting_for_guest_player';
+var game_state = null;
 
 function copyURL() {
     html_components.copyURL();
 }
 
+server_communicator.addListener('updateGameState', function(data) {
+    game_state = data;
+})
+
 server_communicator.addListener('showShareURLMessage', function(flag) {
     html_components.showCopyURL(flag);
+});
+
+server_communicator.addListener('showResetButton', function(data) {
+    // html_componenets.show
 });
 
 function drawCanvas() {
@@ -35,13 +43,24 @@ input_handler.addListener('resize', 'resizeBoard', function() {
 
 // Temporary timeout
 setTimeout(function(){
-    // Add a mouseup event listener for each column on the connect 4 board
+    // Add listeners for columns
     for(var i = 0; i < game_canvas.getNumberOfColumns(); i++) {
+        // Helper function that returns whether the mouse position is within a region
+        function isInRegion(evt, region) {
+            return evt.clientX > region.x && evt.clientX < region.x + region.width && 
+            evt.clientY > region.y && evt.clientY < region.y + region.height
+        }
+
+        // Add listener for mouseup events for putting pieces in specific columns
         input_handler.addListener('mouseup', 'putPieceColumn' + i, function(evt, column) {
-            var columnRegion = game_canvas.getColumnRegion(column);
-            if(evt.clientX > columnRegion.x && evt.clientX < columnRegion.x + columnRegion.width && 
-            evt.clientY > columnRegion.y && evt.clientY < columnRegion.y + columnRegion.height)
+            if(isInRegion(evt, game_canvas.getColumnRegion(column)))
                 server_communicator.putPiece(column);
+        }, [i]);
+
+        // Add listeners for columns that are being hovered over for highlighting
+        input_handler.addListener('mousemove', 'hoverHighlight' + i, function(evt, column) {
+            // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
+
         }, [i]);
     }
 }, 1000);

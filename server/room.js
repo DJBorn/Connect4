@@ -7,6 +7,7 @@ var Room = function (room_id){
     this.gameEnded = false;
     this.game = new Game(6, 7);
     this.turn = "host";
+    this.gameState = "waiting";
 }
 
 Room.prototype.changeTurns = function() {
@@ -29,6 +30,13 @@ Room.prototype.updateClient = function () {
         this.host.socket.emit('updateBoard', this.game.board);
     if(this.guest)
         this.guest.socket.emit('updateBoard', this.game.board);
+}
+
+Room.prototype.updateGameState = function () {
+    if(this.host)
+        this.host.socket.emit('updateGameState', this.gameState);
+    if(this.guest)
+        this.guest.socket.emit('updateGameState', this.gameState);
 }
 
 Room.prototype.leave = function(client_id) {
@@ -88,6 +96,8 @@ Room.prototype.joinRoom = function(client) {
         }
     });
 
+    if(this.isFull())
+        this.updateGameState();
     this.updateClient();
     return true;
 }
