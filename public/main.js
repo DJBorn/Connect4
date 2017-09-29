@@ -57,10 +57,22 @@ setTimeout(function(){
                 server_communicator.putPiece(column);
         }, [i]);
 
-        // Add listeners for columns that are being hovered over for highlighting
+        // Mouse move and mouse down listeners
+        // Highlights the column 
         input_handler.addListener('mousemove', 'hoverHighlight' + i, function(evt, column) {
             // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
+            if(isInRegion(evt, game_canvas.getColumnRegion(column)))
+                game_canvas.setDisplayHighlight(column, true);
+            else
+                game_canvas.setDisplayHighlight(column, false);
+        }, [i]);
 
+        input_handler.addListener('mousedown', 'hoverHighlight' + i, function(evt, column) {
+            // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
+            if(isInRegion(evt, game_canvas.getColumnRegion(column)))
+                game_canvas.setDisplayHighlight(column, true);
+            else
+                game_canvas.setDisplayHighlight(column, false);
         }, [i]);
     }
 }, 1000);

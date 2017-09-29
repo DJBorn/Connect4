@@ -19,7 +19,7 @@ io.use(function(socket, next) {
 });
 
 app.get('/', function(req, res){
-    room_id = rooms.createRoom(room_id);
+    var room_id = rooms.createRoom();
     res.redirect('/' + room_id);
     // Create new rooms
 });
@@ -34,7 +34,7 @@ app.get('/:room_id', function(req, res){
     }
     // Otherwise create a new room and redirect to that room
     else {
-        room_id = rooms.createRoom(room_id);
+        room_id = rooms.createRoom();
         res.redirect('/' + room_id);
     }
 });
