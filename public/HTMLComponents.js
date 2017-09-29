@@ -38,7 +38,6 @@ var HTMLComponents = function() {
     // Resize the HTML components given the board coordinates
     // @input obj -> {x, y, width, height}
     this.resizeComponents = function(boardCoordinates) {
-        console.log("resized");
         // Below are class variables that contain the elements that compose the share URL message
         // url_text -> Element of the text shown to user to copy and share ("Share your URL with your friend to play")
         // url_textbox -> Element that contains the actual URL ("http://locahost/fkasjlf")

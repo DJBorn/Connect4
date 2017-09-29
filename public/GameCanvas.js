@@ -96,8 +96,8 @@ var GameCanvas = function(new_canvas) {
 
     
     this.drawHighlight = function(columnRegion) {
+        ctx.beginPath();
         ctx.rect(columnRegion.x, columnRegion.y, columnRegion.width, boardHeight);
-        //console.log(columnRegion.height);
         ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
         ctx.fill();
     }

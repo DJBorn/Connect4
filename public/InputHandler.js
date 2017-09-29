@@ -21,17 +21,22 @@ var InputHandler = function() {
                 }
             }, false);
         }
-        listeners[event][name] = {
-            function: fn,
-            params: params,
-            active: true
-        };
+        if(listeners[event][name])
+            listeners[event][name].active = true;
+        else
+            listeners[event][name] = {
+                function: fn,
+                params: params,
+                active: true
+            };
     }
 
     this.disableEvent = function(event, name) {
-        listeners[event][name].active = false;
+        if(listeners[event] && listeners[event][name])
+            listeners[event][name].active = false;
     }
     this.enableEvent = function(event, name) {
-        listeners[event][name].active = true;
+        if(listeners[event] && listeners[event][name])
+            listeners[event][name].active = true;
     }
 }

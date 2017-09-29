@@ -42,14 +42,13 @@ Room.prototype.updateGameState = function () {
 Room.prototype.leave = function(client_id) {
     if(this.host && this.host.id == client_id) {
         this.host = null;
-        if(this.guest)
-            this.guest.socket.emit('showShareURLMessage', true);
+        this.gameState = "waiting";
     }
     if(this.guest && this.guest.id == client_id) {
         this.guest = null;
-        if(this.host)
-            this.host.socket.emit('showShareURLMessage', true);
+        this.gameState = "waiting";
     }
+    this.updateGameState();
 }
 
 Room.prototype.joinRoom = function(client) {
@@ -70,20 +69,12 @@ Room.prototype.joinRoom = function(client) {
         this.host = new_player;
         pieceAssign = 1;
         roleAssign = "host";
-        if(!this.isFull())
-            this.host.socket.emit('showShareURLMessage', true);
-        else
-            this.guest.socket.emit('showShareURLMessage', false);
     }
     // Then try to fill the guest position
     else if(!this.guest) {
         this.guest = new_player;
         pieceAssign = 2;
         roleAssign = "guest";
-        if(!this.isFull())
-            this.guest.socket.emit('showShareURLMessage', true);
-        else
-            this.host.socket.emit('showShareURLMessage', false);
     }
 
     var parent = this;
@@ -97,8 +88,9 @@ Room.prototype.joinRoom = function(client) {
     });
 
     if(this.isFull())
-        this.updateGameState();
+        this.gameState = "playing";
     this.updateClient();
+    this.updateGameState();
     return true;
 }
 

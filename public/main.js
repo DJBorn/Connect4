@@ -3,7 +3,7 @@ var game_canvas = new GameCanvas(document.getElementById('canvas'));
 var server_communicator = new ServerCommunicator();
 var input_handler = new InputHandler();
 var html_components = new HTMLComponents();
-var game_state = null;
+var game_state = "waiting";
 
 function copyURL() {
     html_components.copyURL();
@@ -11,15 +11,20 @@ function copyURL() {
 
 server_communicator.addListener('updateGameState', function(data) {
     game_state = data;
+    console.log(game_state);
+    if(game_state == "waiting") {
+        html_components.showCopyURL(true);
+    }
+    else {
+        html_components.showCopyURL(false);
+    }
+    if(game_state == "playing") {
+        setupInGameHandlers();
+    }
+    else {
+        turnOffGameHandlers();
+    }
 })
-
-server_communicator.addListener('showShareURLMessage', function(flag) {
-    html_components.showCopyURL(flag);
-});
-
-server_communicator.addListener('showResetButton', function(data) {
-    // html_componenets.show
-});
 
 function drawCanvas() {
     game_canvas.drawCanvas();
@@ -41,8 +46,17 @@ input_handler.addListener('resize', 'resizeBoard', function() {
     html_components.resizeComponents(game_canvas.getBoardCoordinates());
 });
 
-// Temporary timeout
-setTimeout(function(){
+function turnOffGameHandlers() {
+    for(var i = 0; i < game_canvas.getNumberOfColumns(); i++) {
+        input_handler.disableEvent('mouseup', 'putPieceColumn' + i);
+        input_handler.disableEvent('mousemove', 'hoverHighlight' + i);
+        input_handler.disableEvent('touchstart', 'touchStartHighlight' + i);
+        input_handler.disableEvent('touchmove', 'touchMoveHighlight' + i);
+        input_handler.disableEvent('touchend', 'touchEndHighlight' + i);
+    }
+}
+
+function setupInGameHandlers() {
     // Add listeners for columns
     for(var i = 0; i < game_canvas.getNumberOfColumns(); i++) {
         // Helper function that returns whether the mouse position is within a region
@@ -51,8 +65,8 @@ setTimeout(function(){
             evt.clientY > region.y && evt.clientY < region.y + region.height
         }
 
-        // Add listener for mouseup events for putting pieces in specific columns
-        input_handler.addListener('mouseup', 'putPieceColumn' + i, function(evt, column) {
+        // Add listener for click events for putting pieces in specific columns
+        input_handler.addListener('click', 'putPieceColumn' + i, function(evt, column) {
             if(isInRegion(evt, game_canvas.getColumnRegion(column)))
                 server_communicator.putPiece(column);
         }, [i]);
@@ -67,12 +81,28 @@ setTimeout(function(){
                 game_canvas.setDisplayHighlight(column, false);
         }, [i]);
 
-        input_handler.addListener('mousedown', 'hoverHighlight' + i, function(evt, column) {
+        // Highlight the column when finger first touches the screen
+        input_handler.addListener('touchstart', 'touchStartHighlight' + i, function(evt, column) {
             // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
-            if(isInRegion(evt, game_canvas.getColumnRegion(column)))
+            if(isInRegion(evt.changedTouches[0], game_canvas.getColumnRegion(column)))
+                game_canvas.setDisplayHighlight(column, true);
+        }, [i]);
+
+        // Highlight a column when finger moves into a column, and remove any highlights on other columns
+        input_handler.addListener('touchmove', 'touchMoveHighlight' + i, function(evt, column) {
+            // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
+            if(isInRegion(evt.changedTouches[0], game_canvas.getColumnRegion(column)))
                 game_canvas.setDisplayHighlight(column, true);
             else
                 game_canvas.setDisplayHighlight(column, false);
         }, [i]);
+        
+        // Remove highlight when finger releases from the screen and put a piece down (prevent default mousemove/mouseup events)
+        input_handler.addListener('touchend', 'touchEndHighlight' + i, function(evt, column) {
+            evt.preventDefault();
+            game_canvas.setDisplayHighlight(column, false);
+            if(isInRegion(evt.changedTouches[0], game_canvas.getColumnRegion(column)))
+                server_communicator.putPiece(column);
+        }, [i]);
     }
-}, 1000);
+}
