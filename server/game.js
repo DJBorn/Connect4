@@ -1,9 +1,3 @@
-/*
-* @todo
-* accurately place pieces in the board
-* 
-*/
-
 var Game = function (rows, columns){
     this.board = [];
     this.rows = rows;

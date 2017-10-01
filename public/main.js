@@ -28,6 +28,12 @@ server_communicator.addListener('updateGameState', function(data) {
     else {
         turnOffGameHandlers();
     }
+    if (game_state == "winner" || game_state == "loser") {
+        html_components.showResetGameButton(true);
+    }
+    else {
+        html_components.showResetGameButton(false);
+    }
 })
 
 function drawCanvas() {

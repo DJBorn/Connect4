@@ -3,6 +3,7 @@ var HTMLComponents = function() {
     var url_textbox = document.getElementById("url");
     var copy_button = document.getElementById("copy_button");
     var url_text = document.getElementById("url_text");
+    var reset_button = document.getElementById("reset");
 
     url_textbox.value = window.location.href;
 
@@ -32,6 +33,16 @@ var HTMLComponents = function() {
         }
         else {
             copy_url_container.setAttribute("style", "display: none;");
+        }
+    }
+
+    // Function to show or hide the reset button
+    this.showResetGameButton = function(show) {
+        if(show) {
+            reset_button.setAttribute("style", "display: flex;");
+        }
+        else {
+            reset_button.setAttribute("style", "display: none;");
         }
     }
 

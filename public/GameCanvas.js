@@ -51,7 +51,7 @@ var GameCanvas = function(new_canvas) {
             x : cellLength * column + horizontalOffset,
             y : verticalOffset,
             width : cellLength,
-            height : canvas.height - verticalOffset
+            height : boardHeight
         };
     }
 
