@@ -9,6 +9,10 @@ function copyURL() {
     html_components.copyURL();
 }
 
+function resetGame() {
+    server_communicator.resetGame();
+}
+
 server_communicator.addListener('updateGameState', function(data) {
     game_state = data;
     console.log(game_state);
@@ -18,7 +22,7 @@ server_communicator.addListener('updateGameState', function(data) {
     else {
         html_components.showCopyURL(false);
     }
-    if(game_state == "playing") {
+    if(game_state == "your_turn") {
         setupInGameHandlers();
     }
     else {
@@ -69,6 +73,7 @@ function setupInGameHandlers() {
         input_handler.addListener('click', 'putPieceColumn' + i, function(evt, column) {
             if(isInRegion(evt, game_canvas.getColumnRegion(column)))
                 server_communicator.putPiece(column);
+            game_canvas.setDisplayHighlight(column, false);
         }, [i]);
 
         // Mouse move and mouse down listeners

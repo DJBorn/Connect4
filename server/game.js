@@ -17,6 +17,16 @@ var Game = function (rows, columns){
     }
 }
 
+Game.prototype.resetGame = function() {
+    for(var i = 0; i < this.rows; i++) {
+        this.board[i] = [];
+        for(var j = 0; j < this.columns; j++) {
+            this.board[i][j] = 0;
+        }
+    }
+    this.winner = false;
+}
+
 Game.prototype.putPiece = function (piece, column) {
 
     var lastTurnRow;

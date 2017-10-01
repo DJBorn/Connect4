@@ -8,6 +8,11 @@ var ServerCommunicator = function() {
     this.putPiece = function(column) {
         socket.emit('putPiece', column);
     }
+    
+    this.resetGame = function(column) {
+        socket.emit('resetGame');
+    }
+
     this.addListener = function(emitName, fn) {
         socket.on(emitName, fn);
     }

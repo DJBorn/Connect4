@@ -50,3 +50,34 @@ canvas {
     color: white;
     background-color: #473F42;
 }
+
+#reset {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    text-align: center;
+    left: 10%;
+    top: 10%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+}
+
+#reset_button {
+    cursor: pointer;
+    font-family: "Josefin Sans";
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 15px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    color: white;
+    background-color: #473F42;
+}
