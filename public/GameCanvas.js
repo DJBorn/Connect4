@@ -18,11 +18,12 @@ var GameCanvas = function(new_canvas) {
     var verticalOffset;
     var displayHighlight = [];
     var pulse;
+    var arrows;
 
-    var showWaitMessage = false;
+    var showArrows = false;
 
-    this.setWaitMessage = function(val) {
-        showWaitMessage = val;
+    this.setArrows = function(val) {
+        showArrows = val;
     }
 
     this.setPulse = function(val) {
@@ -58,7 +59,7 @@ var GameCanvas = function(new_canvas) {
                 y = y + cellLength/2;
 
                 ctx.beginPath();
-                ctx.arc(y, x, this.curRadius, 0, 2*Math.PI);
+                ctx.arc(y, x, this.curRadius < 0 ? 0 : this.curRadius, 0, 2*Math.PI);
                 ctx.fillStyle = this.color;
                 ctx.fill();
             }
@@ -74,21 +75,21 @@ var GameCanvas = function(new_canvas) {
             opacityChange: 0,
             draw: function(x, y, pulse) {
                 this.radius = cellLength/2 * this.radiusScale;
-                var rate = 0.01;
-                if(pulse) {
-                    if(this.opacity <= 0)
-                        this.opacityChange = rate;
-                    else if(this.opacity >= 0.8)
-                    this.opacityChange = -rate;
-                }
-                else if(this.opacity >= 0)
-                    this.opacityChange = -rate;
-                else 
-                    this.opacityChange = 0;
+                // var rate = 0.01;
+                // if(pulse) {
+                //     if(this.opacity <= 0)
+                //         this.opacityChange = rate;
+                //     else if(this.opacity >= 0.8)
+                //     this.opacityChange = -rate;
+                // }
+                // else if(this.opacity >= 0)
+                //     this.opacityChange = -rate;
+                // else 
+                //     this.opacityChange = 0;
                     
-                this.opacity += this.opacityChange;
+                // this.opacity += this.opacityChange;
 
-                var pulseColor = "rgba(120, 210, 120, " + this.opacity + ")";
+                // var pulseColor = "rgba(120, 210, 120, " + this.opacity + ")";
 
                 x = x + cellLength/2;
                 y = y + cellLength/2;
@@ -98,9 +99,9 @@ var GameCanvas = function(new_canvas) {
                 ctx.fillStyle = this.color;
                 ctx.fill();
 
-                ctx.arc(y, x, this.radius+1, 0, 2*Math.PI);
-                ctx.fillStyle = pulseColor;
-                ctx.fill();
+                // ctx.arc(y, x, this.radius+1, 0, 2*Math.PI);
+                // ctx.fillStyle = pulseColor;
+                // ctx.fill();
             }
         }
     }
@@ -193,9 +194,9 @@ var GameCanvas = function(new_canvas) {
              this.drawHighlight(this.getColumnRegion(i));
         }
 
-        // Draw wait message if waiting for player
-       // if (showWaitMessage)
-         //   drawMessage("Share your URL to play");
+        // Draw arrows if it's their turn
+        if(showArrows)
+            drawArrows();
     }
 
     
@@ -221,6 +222,44 @@ var GameCanvas = function(new_canvas) {
 
         // Draw holes
         drawHoles();
+    }
+
+    function drawArrows() {
+        if(!arrows || arrows.length != columns) {
+            arrows = [];
+            for(let i = 0; i < columns; i++) {
+                arrows[i] = {
+                    acceleration: 0,
+                    curY: 0,
+                    draw: function(x) {
+                        var center = cellLength/2;
+                        var scale = 4;
+                        var startY = cellLength/2.2;
+                        var endY = cellLength/3;
+                        var speed = cellLength/200;
+
+                        if(this.curY < center - startY) {
+                            this.acceleration = speed;
+                        }
+                        else if(this.curY > center - endY)
+                            this.acceleration = -speed;
+
+                        this.curY += this.acceleration;
+
+                        ctx.beginPath();
+                        ctx.moveTo(x + center - center/scale, this.curY + verticalOffset);
+                        ctx.lineTo(x + center, this.curY + (center/scale) + verticalOffset);
+                        ctx.lineTo(x + center + center/scale, this.curY + verticalOffset);
+                        ctx.lineTo(x + center - center/scale, this.curY + verticalOffset);
+                        ctx.fillStyle = "rgb(150, 240, 150)";
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+        for(let i = 0; i < columns; i++) {
+            arrows[i].draw(i*cellLength + horizontalOffset, verticalOffset);
+        }
     }
 
     function drawHoles(x, y){

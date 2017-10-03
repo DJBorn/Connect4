@@ -24,10 +24,12 @@ server_communicator.addListener('updateGameState', function(data) {
     if(game_state == "your_turn") {
         setupInGameHandlers();
         game_canvas.setPulse(true);
+        game_canvas.setArrows(true);
     }
     else {
         turnOffGameHandlers();
         game_canvas.setPulse(false);
+        game_canvas.setArrows(false);
     }
     if (game_state == "winner" || game_state == "loser") {
         html_components.showResetGameButton(true);
