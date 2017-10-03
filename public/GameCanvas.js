@@ -17,6 +17,7 @@ var GameCanvas = function(new_canvas) {
     var horizontalOffset;
     var verticalOffset;
     var displayHighlight = [];
+    var pulse;
 
     var showWaitMessage = false;
 
@@ -24,8 +25,104 @@ var GameCanvas = function(new_canvas) {
         showWaitMessage = val;
     }
 
+    this.setPulse = function(val) {
+        pulse = val;
+    }
+
+    this.createPlayerAnimation = function (player, radiusScale){
+        return {
+            piece: player,
+            color: player == 1 ? piece1Color : piece2Color,
+            radiusScale: radiusScale,
+            curRadius: 0,
+            acceleration: 0,
+            draw: function(x, y) {
+                this.radius = cellLength/2 * this.radiusScale;
+                
+                var accelerationChange = 3;
+                var resistance = .9;
+                if(this.curRadius > this.radius)
+                accelerationChange *= -1;
+                this.acceleration += accelerationChange;
+                if(this.acceleration > 0)
+                    this.acceleration -= resistance;
+                else
+                    this.acceleration += resistance;
+
+                if(Math.abs(this.curRadius - this.radius) < 2 && Math.abs(this.acceleration) < accelerationChange) {
+                    this.acceleration = 0;
+                }
+                this.curRadius += this.acceleration;
+
+                x = x + cellLength/2;
+                y = y + cellLength/2;
+
+                ctx.beginPath();
+                ctx.arc(y, x, this.curRadius, 0, 2*Math.PI);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+    }
+
+    this.createHoleAnimation = function (piece, radiusScale) {
+        return {
+            piece: piece,
+            color: backgroundShade,
+            radiusScale: radiusScale,
+            opacity: 0,
+            opacityChange: 0,
+            draw: function(x, y, pulse) {
+                this.radius = cellLength/2 * this.radiusScale;
+                var rate = 0.01;
+                if(pulse) {
+                    if(this.opacity <= 0)
+                        this.opacityChange = rate;
+                    else if(this.opacity >= 0.8)
+                    this.opacityChange = -rate;
+                }
+                else if(this.opacity >= 0)
+                    this.opacityChange = -rate;
+                else 
+                    this.opacityChange = 0;
+                    
+                this.opacity += this.opacityChange;
+
+                var pulseColor = "rgba(120, 210, 120, " + this.opacity + ")";
+
+                x = x + cellLength/2;
+                y = y + cellLength/2;
+
+                ctx.beginPath();
+                ctx.arc(y, x, this.radius, 0, 2*Math.PI);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+
+                ctx.arc(y, x, this.radius+1, 0, 2*Math.PI);
+                ctx.fillStyle = pulseColor;
+                ctx.fill();
+            }
+        }
+    }
+
     this.setBoard = function(new_board) {
-        board = new_board;
+        if(!board)
+            board = [];
+        for(var i = 0; i < new_board.length; i++) {
+            if(!board[i])
+                board[i] = [];
+            for(var j = 0; j < new_board[0].length; j++) {
+                // Check if it's a player piece
+                if(new_board[i][j] === 1 || new_board[i][j] === 2) {
+                    // Create a new animation if nothing exists in that slot yet or the object is a player piece
+                    if(!board[i][j] || (board[i][j].piece != 1 && board[i][j].piece != 2))
+                        board[i][j] = this.createPlayerAnimation(new_board[i][j], 0.8);
+                } 
+                else if(!board[i][j] || board[i][j].piece != 0)
+                    board[i][j] = this.createHoleAnimation(new_board[i][j], 0.1);
+            }
+        }
+        //board = new_board;
     }
 
     this.setDisplayHighlight = function(index, value) {
@@ -134,6 +231,8 @@ var GameCanvas = function(new_canvas) {
 
         for(var i = 0; i < rows; i++) {
             for(var j = 0; j < columns; j++) {
+                board[i][j].draw(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, pulse);
+                /*
                 if (board[i] && board[i][j] === player1) {
                     drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .8, piece1Color);
                 }
@@ -142,7 +241,7 @@ var GameCanvas = function(new_canvas) {
                 }
                 else {
                     drawHole(i*cellLength + verticalOffset, j*cellLength + horizontalOffset, .1, backgroundShade);
-                }
+                }*/
             }
         }
     }

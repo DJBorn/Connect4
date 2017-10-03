@@ -15,7 +15,6 @@ function resetGame() {
 
 server_communicator.addListener('updateGameState', function(data) {
     game_state = data;
-    console.log(game_state);
     if(game_state == "waiting") {
         html_components.showCopyURL(true);
     }
@@ -24,9 +23,11 @@ server_communicator.addListener('updateGameState', function(data) {
     }
     if(game_state == "your_turn") {
         setupInGameHandlers();
+        game_canvas.setPulse(true);
     }
     else {
         turnOffGameHandlers();
+        game_canvas.setPulse(false);
     }
     if (game_state == "winner" || game_state == "loser") {
         html_components.showResetGameButton(true);
