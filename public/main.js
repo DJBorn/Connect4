@@ -37,6 +37,18 @@ server_communicator.addListener('updateGameState', function(data) {
     }
 })
 
+if ( !window.requestAnimationFrame ) {
+    window.requestAnimationFrame = ( function() {
+        return window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+            window.setTimeout( callback, 1000 / 60 );
+        };
+    } )();
+}
+
 function drawCanvas() {
     game_canvas.drawCanvas();
     window.requestAnimationFrame(drawCanvas);
@@ -77,7 +89,7 @@ function setupInGameHandlers() {
         }
 
         // Add listener for click events for putting pieces in specific columns
-        input_handler.addListener('click', 'putPieceColumn' + i, function(evt, column) {
+        input_handler.addListener('mouseup', 'putPieceColumn' + i, function(evt, column) {
             if(isInRegion(evt, game_canvas.getColumnRegion(column)))
                 server_communicator.putPiece(column);
             game_canvas.setDisplayHighlight(column, false);

@@ -106,6 +106,7 @@ var GameCanvas = function(new_canvas) {
     }
 
     this.setBoard = function(new_board) {
+        var piecesPut = 0;
         if(!board)
             board = [];
         for(var i = 0; i < new_board.length; i++) {
@@ -115,14 +116,20 @@ var GameCanvas = function(new_canvas) {
                 // Check if it's a player piece
                 if(new_board[i][j] === 1 || new_board[i][j] === 2) {
                     // Create a new animation if nothing exists in that slot yet or the object is a player piece
-                    if(!board[i][j] || (board[i][j].piece != 1 && board[i][j].piece != 2))
+                    if(!board[i][j] || (board[i][j].piece != 1 && board[i][j].piece != 2)) {
                         board[i][j] = this.createPlayerAnimation(new_board[i][j], 0.8);
+                        piecesPut++;
+                    }
                 } 
                 else if(!board[i][j] || board[i][j].piece != 0)
                     board[i][j] = this.createHoleAnimation(new_board[i][j], 0.1);
             }
         }
-        //board = new_board;
+        if(piecesPut> 0) {
+            var audio = new Audio('./public/assets/put_piece_sound.wav');
+            audio.volume = 0.3;
+            audio.play();
+        }
     }
 
     this.setDisplayHighlight = function(index, value) {
