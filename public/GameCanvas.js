@@ -30,6 +30,10 @@ var GameCanvas = function(new_canvas) {
         pulse = val;
     }
 
+    this.isColumnFull = function(column) {
+        return board && board[0] && (board[0][column].piece === 1 || board[0][column].piece === 2);
+    }
+
     this.createPlayerAnimation = function (player, radiusScale){
         return {
             piece: player,
@@ -225,40 +229,37 @@ var GameCanvas = function(new_canvas) {
     }
 
     function drawArrows() {
-        if(!arrows || arrows.length != columns) {
-            arrows = [];
-            for(let i = 0; i < columns; i++) {
-                arrows[i] = {
-                    acceleration: 0,
-                    curY: 0,
-                    draw: function(x) {
-                        var center = cellLength/2;
-                        var scale = 4;
-                        var startY = cellLength/2.2;
-                        var endY = cellLength/3;
-                        var speed = cellLength/200;
-
-                        if(this.curY < center - startY) {
-                            this.acceleration = speed;
-                        }
-                        else if(this.curY > center - endY)
-                            this.acceleration = -speed;
-
-                        this.curY += this.acceleration;
-
-                        ctx.beginPath();
-                        ctx.moveTo(x + center - center/scale, this.curY + verticalOffset);
-                        ctx.lineTo(x + center, this.curY + (center/scale) + verticalOffset);
-                        ctx.lineTo(x + center + center/scale, this.curY + verticalOffset);
-                        ctx.lineTo(x + center - center/scale, this.curY + verticalOffset);
-                        ctx.fillStyle = "rgb(150, 240, 150)";
-                        ctx.fill();
-                    }
-                }
-            }
+        if(this.created != columns) {
+            this.created = columns;
+            this.acceleration = 0;
+            this.curY = 0;
         }
+        var center = cellLength/2;
+        var scale = 4;
+        var startY = cellLength/2.2;
+        var endY = cellLength/3;
+        var speed = cellLength/200;
+
+        if(this.curY < center - startY) {
+            this.acceleration = speed;
+        }
+        else if(this.curY > center - endY)
+            this.acceleration = -speed;
+
+        this.curY += this.acceleration;
+
         for(let i = 0; i < columns; i++) {
-            arrows[i].draw(i*cellLength + horizontalOffset, verticalOffset);
+            if(!(board && board[0] && (board[0][i].piece === 1 || board[0][i].piece === 2))) {
+                var x = i*cellLength + horizontalOffset;
+
+                ctx.beginPath();
+                ctx.moveTo(x + center - center/scale, this.curY + verticalOffset);
+                ctx.lineTo(x + center, this.curY + (center/scale) + verticalOffset);
+                ctx.lineTo(x + center + center/scale, this.curY + verticalOffset);
+                ctx.lineTo(x + center - center/scale, this.curY + verticalOffset);
+                ctx.fillStyle = "rgb(150, 240, 150)";
+                ctx.fill();
+            }
         }
     }
 

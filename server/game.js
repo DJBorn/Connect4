@@ -32,7 +32,7 @@ Game.prototype.putPiece = function (piece, column) {
 
     //check if column is full
     if (this.board[0][column] === 1 || this.board[0][column] === 2) {
-         console.log("Column is full");
+        //console.log("Column is full");
         return false;
     }
 

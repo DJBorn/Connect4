@@ -98,30 +98,32 @@ function setupInGameHandlers() {
         }, [i]);
 
         // Mouse move and mouse down listeners
-        // Highlights the column 
-        input_handler.addListener('mousemove', 'hoverHighlight' + i, function(evt, column) {
-            // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
-            if(isInRegion(evt, game_canvas.getColumnRegion(column)))
-                game_canvas.setDisplayHighlight(column, true);
-            else
-                game_canvas.setDisplayHighlight(column, false);
-        }, [i]);
+        if(!game_canvas.isColumnFull(i)) {
+            // Highlights the column when mouse has moved
+            input_handler.addListener('mousemove', 'hoverHighlight' + i, function(evt, column) {
+                // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
+                if(isInRegion(evt, game_canvas.getColumnRegion(column)))
+                    game_canvas.setDisplayHighlight(column, true);
+                else
+                    game_canvas.setDisplayHighlight(column, false);
+            }, [i]);
 
-        // Highlight the column when finger first touches the screen
-        input_handler.addListener('touchstart', 'touchStartHighlight' + i, function(evt, column) {
-            // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
-            if(isInRegion(evt.changedTouches[0], game_canvas.getColumnRegion(column)))
-                game_canvas.setDisplayHighlight(column, true);
-        }, [i]);
+            // Highlight the column when finger first touches the screen
+            input_handler.addListener('touchstart', 'touchStartHighlight' + i, function(evt, column) {
+                // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
+                if(isInRegion(evt.changedTouches[0], game_canvas.getColumnRegion(column)))
+                    game_canvas.setDisplayHighlight(column, true);
+            }, [i]);
 
-        // Highlight a column when finger moves into a column, and remove any highlights on other columns
-        input_handler.addListener('touchmove', 'touchMoveHighlight' + i, function(evt, column) {
-            // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
-            if(isInRegion(evt.changedTouches[0], game_canvas.getColumnRegion(column)))
-                game_canvas.setDisplayHighlight(column, true);
-            else
-                game_canvas.setDisplayHighlight(column, false);
-        }, [i]);
+            // Highlight a column when finger moves into a column, and remove any highlights on other columns
+            input_handler.addListener('touchmove', 'touchMoveHighlight' + i, function(evt, column) {
+                // Use game_canvas.setDisplayHighlight(column, value) to set boolean values to indicate whether to highlight that column or not
+                if(isInRegion(evt.changedTouches[0], game_canvas.getColumnRegion(column)))
+                    game_canvas.setDisplayHighlight(column, true);
+                else
+                    game_canvas.setDisplayHighlight(column, false);
+            }, [i]);
+        }
         
         // Remove highlight when finger releases from the screen and put a piece down (prevent default mousemove/mouseup events)
         input_handler.addListener('touchend', 'touchEndHighlight' + i, function(evt, column) {
