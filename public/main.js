@@ -33,9 +33,18 @@ server_communicator.addListener('updateGameState', function(data) {
     }
     if (game_state == "winner" || game_state == "loser") {
         html_components.showResetGameButton(true);
+
+        if(game_state == "winner") {
+            html_components.showWinnerText(true);
+        }
+        else {
+            html_components.showLoserText(true);
+        }
     }
     else {
         html_components.showResetGameButton(false);
+        html_components.showWinnerText(false);
+        html_components.showLoserText(false);
     }
 })
 
