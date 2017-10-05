@@ -15,7 +15,8 @@ var RoomManager = function () {
     }
 
     this.roomIsFull = function(room_id) {
-        return rooms[room_id].isFull();
+        if(rooms[room_id]);
+            return rooms[room_id].isFull();
     }
 
     this.roomExists = function(room_id) {

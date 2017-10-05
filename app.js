@@ -26,9 +26,9 @@ app.get('/', function(req, res){
 
 app.get('/:room_id', function(req, res){
     var room_id = req.params.room_id;
-
+    
     // If the room exists and is not full then serve the main page
-    if(rooms.roomExists(req.params.room_id) && !rooms.roomIsFull(room_id)) {
+    if(rooms.roomExists(room_id) && !rooms.roomIsFull(room_id)) {
         res.sendFile(__dirname + '/index.html');
         return;
     }
