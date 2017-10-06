@@ -53,16 +53,16 @@ var HTMLComponents = function() {
     // Function to show or hide the reset button
     this.showGameResultText = function(show) {
         if(show == 1) {
-            game_result_text.style.display = "flex";
+            //game_result_text.style.display = "flex";
             //game_result_text.setAttribute("style", "display: flex;");
         }
         else if (show == 2) {
             game_result_text.innerHTML = "You lose";
-            game_result_text.style.display = "flex";
+            //game_result_text.style.display = "flex";
             //game_result_text.setAttribute("style", "display: flex;");
         }
         else {
-            game_result_text.style.display = "none";
+            //game_result_text.style.display = "none";
         }
     }
 

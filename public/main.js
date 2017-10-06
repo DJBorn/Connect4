@@ -34,12 +34,12 @@ server_communicator.addListener('updateGameState', function(data) {
     if (game_state == "winner") {
         html_components.showResetGameButton(true);
         html_components.showGameResultText(1);
-        html_components.resizeComponents(game_canvas.getBoardCoordinates());
+        //html_components.resizeComponents(game_canvas.getBoardCoordinates());
     }
     else if (game_state == "loser") {
         html_components.showResetGameButton(true);
         html_components.showGameResultText(2);   
-        html_components.resizeComponents(game_canvas.getBoardCoordinates());
+       // html_components.resizeComponents(game_canvas.getBoardCoordinates());
     }
     else {
         html_components.showResetGameButton(false);
