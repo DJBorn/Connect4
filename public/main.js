@@ -31,20 +31,19 @@ server_communicator.addListener('updateGameState', function(data) {
         game_canvas.setPulse(false);
         game_canvas.setArrows(false);
     }
-    if (game_state == "winner" || game_state == "loser") {
+    if (game_state == "winner") {
         html_components.showResetGameButton(true);
-
-        if(game_state == "winner") {
-            html_components.showWinnerText(true);
-        }
-        else {
-            html_components.showLoserText(true);
-        }
+        html_components.showGameResultText(1);
+        html_components.resizeComponents(game_canvas.getBoardCoordinates());
+    }
+    else if (game_state == "loser") {
+        html_components.showResetGameButton(true);
+        html_components.showGameResultText(2);   
+        html_components.resizeComponents(game_canvas.getBoardCoordinates());
     }
     else {
         html_components.showResetGameButton(false);
-        html_components.showWinnerText(false);
-        html_components.showLoserText(false);
+        html_components.showGameResultText(false);
     }
 })
 

@@ -60,13 +60,14 @@ canvas {
     user-select: none;
 
     text-align: center;
-    left: 10%;
-    top: 10%;
+    left: 50%;
+    top: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
     position: absolute;
     flex-direction: column;
     align-items: center;
+    display: flex;
 }
 
 #reset_button {
@@ -82,36 +83,8 @@ canvas {
     background-color: #473F42;
 }
 
-#winner_text {
+#game_result_text {
     font-family: "Josefin Sans";
     color: white;
-    font-size: 40px;
-
-    text-align: center;
-    left: 50%;
-    top: 50%;
-    width: 100%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    flex-direction: column;
-    align-items: center;
-    display: none;
-    cursor: context-menu;
-}
-
-#loser_text {
-    font-family: "Josefin Sans";
-    color: white;
-    font-size: 40px;
-
-    text-align: center;
-    left: 50%;
-    top: 50%;
-    width: 100%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    flex-direction: column;
-    align-items: center;
-    display: none;
     cursor: context-menu;
 }
