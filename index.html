@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+        <title>Connect 4</title>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56228722-2"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-56228722-2');
+        </script>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./public/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./public/favicon-16x16.png">
+        <link rel="manifest" href="./public/manifest.json">
+        <link rel="mask-icon" href="./public/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="theme-color" content="#ffffff">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
         <link rel="stylesheet" href="./public/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Anton|Josefin+Sans|Rubik" rel="stylesheet">
     </head>
     <body>
         <canvas id="canvas"></canvas>
+        <div id="copy_url">
+            <div id="url_text">Share your URL with your friend to play</div>
+            <input type="text" id="url" spellcheck="false" value="" readonly/>
+            <button id="copy_button" onclick="copyURL()">Copy URL</button>
+        </div>
+
+        <div id="reset">
+            <div id="game_result_text">You win!</div>
+            <button id="reset_button" onclick="resetGame()">Reset Game</button>
+        </div>
+
         <script src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="./public/socket.js"></script>
+        <script type="text/javascript" src="./public/HTMLComponents.js"></script>
+        <script type="text/javascript" src="./public/ServerCommunicator.js"></script>
+        <script type="text/javascript" src="./public/InputHandler.js"></script>
+        <script type="text/javascript" src="./public/GameCanvas.js"></script>
         <script type="text/javascript" src="./public/board.js"></script>
-        <script type="text/javascript" src="./public/connect4.js"></script>
+        <script type="text/javascript" src="./public/main.js"></script>
     </body>
 </html>

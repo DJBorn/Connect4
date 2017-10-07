@@ -3,9 +3,88 @@ html, body {
     padding:0;
     width:100%;
     height:100%;
-    background-color: rgb(50, 120, 225);
+    background-color: rgb(95, 160, 255);
 }
 
 canvas {
     position:absolute;
+}
+ 
+#copy_url {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    display: none;
+}
+
+#url {
+    margin-top: 10px;
+}
+
+#url_text {
+    font-family: "Josefin Sans";
+    color: white;
+}
+
+#copy_button {
+    cursor: pointer;
+    font-family: "Josefin Sans";
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 15px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    color: white;
+    background-color: #473F42;
+}
+
+#reset {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    display: none;
+}
+
+#reset_button {
+    cursor: pointer;
+    font-family: "Josefin Sans";
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 15px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    color: white;
+    background-color: #473F42;
+}
+
+#game_result_text {
+    font-family: "Josefin Sans";
+    color: white;
+    cursor: context-menu;
 }
