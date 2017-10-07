@@ -55,6 +55,7 @@ var HTMLComponents = function() {
         if(show == 1) {
             //game_result_text.style.display = "flex";
             //game_result_text.setAttribute("style", "display: flex;");
+            game_result_text.innerHTML = "You win!";
         }
         else if (show == 2) {
             game_result_text.innerHTML = "You lose";
@@ -96,8 +97,8 @@ var HTMLComponents = function() {
 
         // resetButtonWidthScale = boardCoordinates.width * 0.25;
         // resetButtonFontScale = resetButtonWidthScale * 0.1;
-        // resetButtonMarginTop = boardCoordinates.width * 0.025;
-        // resetButtonPadding = boardCoordinates.width * 0.02;
+        resetButtonMarginTop = boardCoordinates.width * 0.025;
+        resetButtonPadding = boardCoordinates.width * 0.025;
 
         url_text.setAttribute("style","width: " + urlTextWidthScale + "px; font-size: " + urlTextFontScale + "px;"); 
         url_textbox.setAttribute("style","width: " + urlTextBoxWidthScale + "px; font-size: "+urlTextBoxFontScale + "px;"
@@ -115,7 +116,7 @@ var HTMLComponents = function() {
 
         game_result_text.setAttribute("style","width: " + urlTextWidthScale + "px; font-size: " + urlTextFontScale + "px;");
         reset_button.setAttribute("style","width: " + copyWidthScale+ "px; font-size: " + copyFontScale + "px; margin-top: " 
-        + copyMarginTop + "px; padding: " + copyPadding + "px;"); 
+        + resetButtonMarginTop + "px; padding: " + resetButtonPadding + "px;"); 
 
         //game_result_text.setAttribute("style","width: " + resultTextWidthScale + "px; font-size: " + resultTextFontScale + "px;");
         //reset_button.setAttribute("style","width: " + resetButtonWidthScale+ "px; font-size: " + resetButtonFontScale + "px; margin-top: " 
