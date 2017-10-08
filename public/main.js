@@ -86,6 +86,7 @@ function turnOffGameHandlers() {
         input_handler.disableEvent('touchstart', 'touchStartHighlight' + i);
         input_handler.disableEvent('touchmove', 'touchMoveHighlight' + i);
         input_handler.disableEvent('touchend', 'touchEndHighlight' + i);
+        game_canvas.setDisplayHighlight(i, false);
     }
 }
 
